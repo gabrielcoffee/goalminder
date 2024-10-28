@@ -1,12 +1,6 @@
 'use client'
 import React, { useState } from 'react'
 import { Dumbbell, Briefcase, User, Heart, Wallet, Palette, Sun, Calendar, Clock, CalendarDays, CalendarRange, CalendarCheck, Check } from "lucide-react"
-import { Fredoka } from 'next/font/google';
-
-const fredoka = Fredoka({
-    subsets: ['latin'],
-    weight: ['400','700'],
-});
 
 export default function GoalForm() {
 
@@ -66,6 +60,7 @@ export default function GoalForm() {
         <div>
             <form onSubmit={handleSubmit} className='flex flex-col gap-4 p-6 items-center font-normal rounded-xl text-xl'>
 
+            
             <label>
                 Goal name:
                 <input type="text" name="goal_name" value={formData.goal_name} onChange={handleChange} />
@@ -80,7 +75,7 @@ export default function GoalForm() {
                         area_options.map((option, index) => (
                             <label 
                                 key={index} 
-                                className={fredoka.className + ` $Active p-8 py-6 flex flex-col items-center cursor-pointer buttonShadow rounded-md duration-100 bg-white border border-slate-800 `}
+                                className={`$Active p-8 py-6 flex flex-col items-center cursor-pointer buttonShadow rounded-md duration-100 bg-white border border-slate-800`}
                                 style={{ backgroundColor: `${option.color}30` }}
                             >
                                 <input
@@ -110,7 +105,7 @@ export default function GoalForm() {
                         freq_options.map((option, index) => (
                             <label 
                                 key={index} 
-                                className={fredoka.className + ' active:duration-0 active:bg-white p-6 flex flex-col items-center cursor-pointer buttonShadow rounded-md duration-200 bg-slate-100 border border-slate-800 '
+                                className={'active:duration-0 active:bg-white p-6 flex flex-col items-center cursor-pointer buttonShadow rounded-md duration-200 bg-slate-100 border border-slate-800 '
                                 }
                             >
                                 <input

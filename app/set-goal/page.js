@@ -1,12 +1,13 @@
 import GoalForm from '@/components/GoalForm'
+import SetGoalForm from '@/components/SetGoalForm'
 import React from 'react'
 
 const metadata = {
     title: "Goalminder - Create"
 }
 
-export default function CreatePage() {
+export default function SetGoalPage() {
   return (
-    <GoalForm/>
+    <SetGoalForm/>
   )
 }

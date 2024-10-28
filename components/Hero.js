@@ -1,16 +1,16 @@
-import { Fredoka } from 'next/font/google';
-import React from 'react'
+import React from "react"
 
-const fredoka = Fredoka({
-    subsets: ['latin'],
-    weight: ['400','700'],
-});
 
 export default function Hero() {
+
+
     return (
-      <div className="flex flex-col items-center gap-8">
-        <h1 className={'text-4xl font-bold text-center ' + fredoka.className}>Goalminder</h1>
-        <p className='font-thin'>We send <strong>reminders</strong> of your goals. You check the progress and <strong>keep on track</strong>!</p>
-      </div>
+        <div className="flex flex-col items-center gap-16">
+            <h1 className={'text-4xl font-bold text-center mt-16 px-4'}>We send reminders of your goals. You check the progress and keep on track!</h1>
+
+            <button className={'bg-slate-800 rounded-sm text-white p-6 px-10 text-xl'}>
+              <span>Let's Start</span>
+            </button>
+        </div>
     )
 }

@@ -2,15 +2,9 @@
 
 import Link from 'next/link'
 import React, { useState } from 'react'
-import { Fredoka } from 'next/font/google'
 import HeaderButton from './HeaderButton';
-import MobileNavigation from './MobileNavigation';
 import { Menu } from 'lucide-react';
-
-const fredoka = Fredoka({
-    subsets: ['latin'],
-    weight: ['400','700'],
-});
+import { IoMenuSharp } from "react-icons/io5";
 
 export default function Header() {
 
@@ -21,33 +15,34 @@ export default function Header() {
     <>
         <header className="flex justify-between w-full p-1">
 
-            <div className='text-xl md:text-3xl items-center flex p-4
-             bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent hover:animate-gradient'>
+            <div className='text-2xl md:text-xl pl-4 items-center flex text-slate-800'>
                 <Link href={"/"}>
-                    <span className={fredoka.className}>Goalminder</span>
+                    <span>Goalminder</span>
                 </Link>
             </div>
 
-            <div className="hidden md:flex gap-8 font-normal items-center ">
-                <HeaderButton href="/create">Create Goal</HeaderButton>
+            <div className="hidden md:flex gap-2 font-normal text-sm items-center ">
+                <HeaderButton href="/set-goal">Set New Goal</HeaderButton>
+                <HeaderButton href="/goals">My Goals</HeaderButton>
                 <HeaderButton href="/profile">Profile</HeaderButton>
             </div>
 
             <div className="sm:hidden flex flex-col my-auto p-4">
                 <button onClick={toggleMenu}>
-                    <Menu size={40}/>
+                    <Menu size={30}/>
                 </button>
             </div>
         </header>
 
-        <div className="sm:hidden overflow-hidden transition-all duration-300 ease-in-out"
+        <div className="sm:hidden overflow-hidden transition-all duration-500 ease-in-out border-b-[1px] border-b-slate-800"
            style={{ maxHeight: isOpen ? '200px' : '0px' }}>
 
-            <ul className="space-y-8 py-4 my-4 flex flex-col items-center text-lg"> 
-                <li><Link href={"/create"}>Set Goal</Link></li>
-                <li><Link href={"/profile"}>Profile</Link></li>
+            <ul className={"flex flex-col items-center text-lg text-center"}> 
+                <li className='active:bg-slate-800 active:text-white w-full p-4'><Link href={"/set-goal"} onClick={toggleMenu}>Set New Goal</Link></li>
+                <li className='active:bg-slate-800 active:text-white w-full p-4'><Link href={"/goals"} onClick={toggleMenu}>My Goals</Link></li>
+                <li className='active:bg-slate-800 active:text-white w-full p-4'><Link href={"/profile"} onClick={toggleMenu}>Profile</Link></li>
             </ul>
-      </div>
+        </div>
     </>
   )
 }
