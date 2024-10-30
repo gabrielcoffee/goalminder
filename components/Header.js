@@ -13,7 +13,7 @@ export default function Header() {
 
   return (
     <>
-        <header className="flex justify-between w-full p-1">
+        <header className="flex justify-between w-full p-1 sm:border-b-[1px] border-slate-800">
 
             <div className='text-2xl md:text-xl pl-4 items-center flex text-slate-800'>
                 <Link href={"/"}>

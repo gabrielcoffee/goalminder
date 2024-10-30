@@ -23,12 +23,12 @@ export default function GoalForm() {
 
 
     const area_options = [
-        { name: "Fitness", color: "#FF6B6B", icon: Dumbbell },        // Red    - Energy and strength
-        { name: "Professional", color: "#4E89AE", icon: Briefcase }, // Blue   - Stability and trust
-        { name: "Personal", color: "#F4A261", icon: User },          // Orange - Growth and enthusiasm
-        { name: "Relationships", color: "#8E7CC3", icon: Heart },   // Purple - Connection and empathy
-        { name: "Finance", color: "#2A9D8F", icon: Wallet },         // Green  - Wealth and balance
-        { name: "Hobbies", color: "#E9C46A", icon: Palette }         // Yellow - Creativity and optimism
+        { name: "Fitness",       color: "#FF6B6B", icon: Dumbbell },       // Red    - Energy and strength
+        { name: "Professional",  color: "#4E89AE", icon: Briefcase },      // Blue   - Stability and trust
+        { name: "Personal",      color: "#F4A261", icon: User },           // Orange - Growth and enthusiasm
+        { name: "Relationships", color: "#8E7CC3", icon: Heart },          // Purple - Connection and empathy
+        { name: "Finance",       color: "#2A9D8F", icon: Wallet },         // Green  - Wealth and balance
+        { name: "Hobbies",       color: "#E9C46A", icon: Palette }         // Yellow - Creativity and optimism
     ]   
 
     const freq_options = [

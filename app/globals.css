@@ -21,15 +21,6 @@ header {
     font-weight: 700;
 }
 
-label {
-    display: flex;
-    flex-direction: column;
-}
-
-input {
-    border-radius: 1rem;
-}
-
 .textGradient { 
     background: -webkit-linear-gradient(#e2e8f0, #1e293b);
     -webkit-background-clip: text;

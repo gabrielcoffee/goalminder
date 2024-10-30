@@ -1,10 +1,15 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 
 
-export default function Start() {
+export default function Start({ canProgressSetter }) {
+    
     const isFirstGoal = false;
     const username = 'John';
+
+    useEffect(() => {
+        canProgressSetter(true);
+    }, [])
 
     return (
         <div className="flex items-center justify-center h-full">
