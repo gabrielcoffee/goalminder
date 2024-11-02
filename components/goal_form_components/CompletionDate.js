@@ -1,45 +1,46 @@
 import React, { useEffect, useState } from 'react'
-import { addWeeks, addMonths, addYears, format } from 'date-fns'
+import { addWeeks, addMonths, addYears, format, differenceInYears, differenceInWeeks } from 'date-fns'
 
 
-export default function CompletionDate( { data, setter, canProgressSetter} ) {
+export default function CompletionDate( { data, setter, canProgressSetter } ) {
 
-    const [quantity, setQuantity] = useState(1);
-    const [timePeriod, setTimePeriod] = useState('week');
-    const [date, setDate] = useState(new Date());
+    const [formatedDate, setFormatedDate] = useState("")
+    const [changeRangeColor, setChangeRangeColor] = useState(false);
 
-    useEffect(() => {
-        
-        if (!data) {
-            canProgressSetter(false);
-        } else {
-            canProgressSetter(true);
-        } 
-
-    }, [data])
+    let today = new Date();
 
     useEffect(() => {
-        let finishDate = new Date();
+        let completion;
 
-        if (timePeriod === 'week') {
-            finishDate = addWeeks(finishDate, quantity);
-        } 
-        else if (timePeriod === 'month') {
-            finishDate = addMonths(finishDate, quantity);
-        } 
-        else if (timePeriod === 'year') {
-            finishDate = addYears(finishDate, quantity);
+        if (data.timePeriod === 'week') {
+            completion = addWeeks(today, data.quantityPeriod);
+        }
+        else if (data.timePeriod === 'month') {
+            completion = addMonths(today, data.quantityPeriod);
+        }
+        else if (data.timePeriod === 'year') {
+            completion = addYears(today, data.quantityPeriod);
         }
 
-        setDate(finishDate);
-        setter(finishDate);
+        setter.setCompletionDate(completion);
+        setFormatedDate(format(completion, 'MMMM dd, yyyy'))
 
-    }, [timePeriod, quantity])
+
+        if (differenceInWeeks(completion, today) > 1565) {
+            canProgressSetter(false);
+            setChangeRangeColor(true);
+        }
+        else {
+            canProgressSetter(true);
+            setChangeRangeColor(false);
+        }
+
+    }, [data.quantityPeriod, data.timePeriod])
 
     const handleNumberChange = (e) => {
         const value = parseInt(e.target.value);
         if (!isNaN(value) && value > 0) {
-            setQuantity(value);
+            setter.setQuantityPeriod(value);
         }
     }
 
@@ -51,38 +52,42 @@ export default function CompletionDate( { data, setter, canProgressSetter} ) {
                 <span>in</span>
 
                 <button
-                onClick={() => quantity > 1 && setQuantity(quantity - 1)}
+                onClick={() => {data.quantityPeriod > 1 && setter.setQuantityPeriod(data.quantityPeriod - 1)}}
                 className=" p-2 px-3 bg-gray-200 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400"
                 aria-label="Decrease number"
                 >-</button>
            
-                <input type="number" value={quantity} onChange={handleNumberChange}
+                <input type="number" value={data.quantityPeriod} onChange={handleNumberChange}
                 className=" w-16 h-16 text-center border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" min="1"/>
   
                 <button
-                onClick={() => setQuantity(quantity + 1)}
+                onClick={() => setter.setQuantityPeriod(data.quantityPeriod + 1)}
                 className=" p-2 px-3 bg-gray-200 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400"
                 aria-label="Increase number"
                 >+</button>
 
                 <select
-                value={timePeriod} onChange={(e) => setTimePeriod(e.target.value)}
+                value={data.timePeriod} onChange={(e) => setter.setTimePeriod(e.target.value)}
                 className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
-                    <option value="week">week{quantity !== 1 ? 's' : ''}</option>
-                    <option value="month">month{quantity !== 1 ? 's' : ''}</option>
-                    <option value="year">year{quantity !== 1 ? 's' : ''}</option>
+                    <option value="week">week{data.quantityPeriod !== 1 ? 's' : ''}</option>
+                    <option value="month">month{data.quantityPeriod !== 1 ? 's' : ''}</option>
+                    <option value="year">year{data.quantityPeriod !== 1 ? 's' : ''}</option>
                 </select>
             </div>
 
-            <span className='text-2xl rounded-xl my-12 bg-slate-800 text-white p-6 px-4'>
-                {format(date, 'MMMM dd, yyyy')}
-            </span>
+            <div className='flex flex-col gap-4'>
+                <span className='text-2xl rounded- mt-14 bg-slate-800 text-white p-6 px-4'>
+                    on {formatedDate}
+                </span>         
+            </div>
 
-            <span className='text-lg absolute bottom-36'>
-                *maximum range of 30 years
-            </span>
-
+            {
+                changeRangeColor &&
+                <span className={'mt-4 text-lg text-red-600'}>
+                    *maximum range of 30 years
+                </span>
+            }
         </div>
     )
 }
