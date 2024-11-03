@@ -2,7 +2,7 @@
 import { ArrowLeft, ArrowRight, BookCheck, Play } from 'lucide-react';
 import React, { useEffect, useState } from 'react'
 import Start from './goal_form_components/Start';
-import Area from './goal_form_components/Area';
+import AreaSelection from './goal_form_components/AreaSelection';
 import NameDesc from './goal_form_components/NameDesc';
 import CompletionDate from './goal_form_components/CompletionDate';
 import Frequency from './goal_form_components/Frequency';
@@ -19,6 +19,7 @@ export default function SetGoalForm() {
     const [quantityPeriod, setQuantityPeriod] = useState(1);
     const [timePeriod, setTimePeriod] = useState('week');
     const [completionDate, setCompletionDate] = useState("")
+    const [totalReminders, setTotalReminders] = useState(1);
     const [reminderFreq, setReminderFreq] = useState(null);
     const [timeOfReminder, setTimeOfReminder] = useState(null);
     const [motivationImg, setMotivationImg] = useState(null);
@@ -34,6 +35,7 @@ export default function SetGoalForm() {
         quantity_period:    quantityPeriod,
         time_period:        timePeriod,
         completion_date:    completionDate,
+        total_reminders:    totalReminders,
         reminder_freq:      reminderFreq,
         time_of_reminder:   timeOfReminder,
         motivation_img:     motivationImg,
@@ -50,7 +52,7 @@ export default function SetGoalForm() {
             comp: <Start/> 
         },
         { 
-            comp: <Area/>, 
+            comp: <AreaSelection/>, 
             data: area, 
             setter: setArea 
         },

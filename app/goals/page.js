@@ -1,4 +1,4 @@
-import GoalInfo from '@/components/GoalInfo';
+import GoalComponent from '@/components/GoalComponent';
 import React from 'react'
 
 const goals = [
@@ -54,7 +54,7 @@ const fit = [
 	  id: 3,
 	  goalId: 1,
 	  date: "11-05-2024",
-	  progressScale: 5,
+	  progressScale: 2,
 	  observations: "Finished a 15-mile run. Feeling strong and on track to reach marathon distance."
 	}
   ];
@@ -65,14 +65,14 @@ const fit = [
 	  id: 4,
 	  goalId: 2,
 	  date: "10-20-2024",
-	  progressScale: 2,
+	  progressScale: 0,
 	  observations: "Completed modules on React basics. Need to review the concepts of state and props."
 	},
 	{
 	  id: 5,
 	  goalId: 2,
 	  date: "10-30-2024",
-	  progressScale: 3,
+	  progressScale: 1,
 	  observations: "Started building a small project. Encountering challenges with routing and component structure."
 	},
 	{
@@ -97,7 +97,7 @@ const fit = [
 	  id: 8,
 	  goalId: 3,
 	  date: "10-31-2024",
-	  progressScale: 5,
+	  progressScale: 3,
 	  observations: "On track with reading goals. Finished another book this month."
 	},
 	{
@@ -131,9 +131,12 @@ export default function GoalsPage() {
 				</select>
 			</div>
 
-			<GoalInfo goal_info={goals[0]} reports_info={fit}/>
-			<GoalInfo goal_info={goals[1]} reports_info={pro}/>
-			<GoalInfo goal_info={goals[2]} reports_info={per}/>
+			<div className='w-full'>
+
+				<GoalComponent goal_info={goals[0]} reports_info={fit}/>
+				<GoalComponent goal_info={goals[1]} reports_info={pro}/>
+				<GoalComponent goal_info={goals[2]} reports_info={per}/>
+			</div>
         </div>
     )
 }

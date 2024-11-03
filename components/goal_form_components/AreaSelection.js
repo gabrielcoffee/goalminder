@@ -10,7 +10,7 @@ const area_options = [
     { name: "Hobbies", color: "#E9C46A", icon: Palette }         // Yellow - Creativity and optimism
 ]
 
-export default function Area({ data, setter, canProgressSetter }) {
+export default function AreaSelection({ data, setter, canProgressSetter }) {
 
     useEffect(() => {
         if (!data) {
