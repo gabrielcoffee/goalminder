@@ -1,5 +1,12 @@
+'use client'
 import GoalComponent from '@/components/GoalComponent';
-import React from 'react'
+import { useAuth } from '@/context/AuthContext';
+import { useNavigate } from 'react-router-dom';
+import { Briefcase, Dumbbell, Heart, Palette, User, Wallet } from 'lucide-react'
+import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react'
+import Loading from '@/components/Loading';
+import Login from '@/components/Login';
 
 const goals = [
 	{
@@ -107,23 +114,72 @@ const fit = [
 	  progressScale: 4,
 	  observations: "Halfway through a new book on mindfulness. Feeling motivated to keep the pace."
 	}
-  ];
-  
+];
+
+const area_options = [
+    { name: "Fitness", color: "#FF6B6B", icon: Dumbbell },       // Red    - Energy and strength
+    { name: "Professional", color: "#4E89AE", icon: Briefcase }, // Blue   - Stability and trust
+    { name: "Personal", color: "#F4A261", icon: User },          // Orange - Growth and enthusiasm
+    { name: "Relationships", color: "#8E7CC3", icon: Heart },    // Purple - Connection and empathy
+    { name: "Finance", color: "#2A9D8F", icon: Wallet },         // Green  - Wealth and balance
+    { name: "Hobbies", color: "#E9C46A", icon: Palette }         // Yellow - Creativity and optimism
+]
 
 export default function GoalsPage() {
 	const username = 'John'
 
+	// Make an array with just the areas of the goals
+	const goal_areas = goals.map(goal => goal.area);
+
+	// Create an array of areas with a new variable for checking the areas that have goals
+	const area_icons = area_options.map(area => ({
+		...area,
+		showIcon: goal_areas.includes(area.name)
+	}))
+
+	const { curUser, userData, loading } = useAuth();
+	const { data, setData } = useState(null);
+
+	useEffect(() => {
+		if (!curUser || !userData) {
+			return 
+		}
+		setData(userData);
+	}, [curUser, userData])
+
+	if (loading) {
+		return <Loading/>
+	}
+  
+	if (!curUser) {
+		return <Login/>
+	}
+
     return (
-        <div className='flex flex-col items-center mt-20 gap-4 w-full'>
+        <div className='flex flex-col items-center mt-20 gap-10 w-full'>
 
-			<h1 className='text-4xl font-bold text-center px-4 mb-20'>{username}'s goals</h1>
-			<h2 className='text-xl'>Areas include:</h2>
-			<p>...areas...</p>
-
-			<div className='flex items-center'>
-				<span>Sort by </span>
+			<h1 className='text-4xl font-bold text-center px-4'>{username}'s goals</h1>
+			<div className='flex flex-col items-center gap-2'>
+				<h2 className='text-xl'>Areas include:</h2>
+				<div className='flex gap-2'>
+					{
+						area_icons.map((area, index) => (
+							
+							area.showIcon &&
+							<div key={index} style={{ backgroundColor: area.color + '40'}} className='rounded-full p-4'>
+								{<area.icon style={{color: area.color }} size={30}/>}
+							</div>
+						))
+					}
+				</div>
+			</div>
+			
+			
+			<div className='flex items-center gap-2'>
+				<span>Sort by</span>
 				<select className='p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'>
 					<option value="recently_added">Recently Added</option>
+					<option value="recently_added">Last Added</option>
 					<option value="sooner_to_end">Sooner to End</option>
 					<option value="later_to_end">Later to End</option>
 					<option value="completed">Completed</option>
@@ -131,7 +187,7 @@ export default function GoalsPage() {
 				</select>
 			</div>
 
-			<div className='w-full'>
+			<div className='w-full sm:w-4/6 gap-8 flex flex-col mb-8' >
 
 				<GoalComponent goal_info={goals[0]} reports_info={fit}/>
 				<GoalComponent goal_info={goals[1]} reports_info={pro}/>

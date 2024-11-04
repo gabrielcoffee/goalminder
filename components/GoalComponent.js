@@ -1,7 +1,8 @@
 'use client'
-import { Briefcase, Dumbbell, Heart, Palette, User, Wallet } from 'lucide-react'
-import React, { useEffect } from 'react'
-import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from 'recharts';
+import { format, parse } from 'date-fns';
+import { Briefcase, Dumbbell, Flag, Heart, Palette, User, Wallet } from 'lucide-react'
+import React, { useEffect, useState } from 'react'
+import { Bar, BarChart, CartesianGrid, ResponsiveContainer, XAxis, YAxis } from 'recharts';
 
 const area_options = [
     { name: "Fitness", color: "#FF6B6B", icon: Dumbbell },       // Red    - Energy and strength
@@ -21,29 +22,55 @@ export default function GoalComponent({ goal_info, reports_info}) {
     const numDummyBars = DEFAULT_BARS - reports_info.length;
     const dummyData = new Array(numDummyBars).fill({progressScale: null})
     const finalData = [...reports_info, ...dummyData];
+    const [isClient, setIsClient] = useState(false);
 
     useEffect(() => {
-        
-        
-    },[])
+        setIsClient(true);
+    }, [])
+
+    if (!isClient) {
+        return null
+    }
+
+    const formatDate = (dateString) => {
+        const date = parse(dateString, 'MM-dd-yyyy', new Date());
+        return format(date, 'MMMM dd, yyyy');
+    };
 
     return (
-        <div style={{ backgroundColor: option.color + '40'}} className='rounded-sm bg-slate-100 flex flex-col items-center'>
+        <button style={{ 
+            backgroundColor: option.color + '40',
+            borderColor: option.color,
+            boxShadow: '3px 3px 1px 1px ' + option.color,
+            }} className='myShadow rounded-md border mx-2 bg-slate-100 flex flex-col items-center'>
+
             <div className='flex items-center'>
-                <div className='rounded-full p-4'>
-                    {<option.icon style={{color: option.color }} size={40}/>}
+                
+                <div className='flex items-center mr-auto'>
+                    <div className='rounded-full p-2'>
+                        {<option.icon style={{color: option.color }} size={30}/>}
+                    </div>
+                    <span className='w-full'>{goal_info.name}</span>
                 </div>
-                <span className='w-full'>{goal_info.name}</span>
+                
+                <div className='flex items-center ml-auto'>
+                    <div className='rounded-full p-2'>
+                        <Flag size={30} style={{color: option.color }}/>
+                    </div>
+                    <span>by {formatDate(goal_info.completionDate)}</span>
+                </div>
             </div>
 
-            <div className='border rounded-md border-b-2 p-4' style={{borderColor: option.color }}>
-                <BarChart width={400} height={200} data={finalData}>
-                    <XAxis dataKey="date" tick={false} />
-                    <YAxis type='number' ticks={[0,1,2,3,4]} interval={0}/>
-                    <Bar dataKey="progressScale" fill={option.color}/>
-                </BarChart>
+            <div className='w-full h-full max-w-md mr-8' style={{borderColor: option.color, height: 125, pointerEvents: 'none'}}>
+                <ResponsiveContainer width="100%" height="100%">
+                    <BarChart id='1' data={finalData}>
+                        <XAxis dataKey="date" tick={false} />
+                        <YAxis type='number' ticks={[0,1,2,3,4]} interval={0}/>
+                        <CartesianGrid horizontal={true} vertical={false} strokeDasharray="3 3"/>
+                        <Bar dataKey="progressScale" fill={option.color}/>
+                    </BarChart>
+                </ResponsiveContainer>
             </div>
-
-        </div>
+        </button>
     )
 }

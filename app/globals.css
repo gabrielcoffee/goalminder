@@ -21,8 +21,16 @@ header {
     font-weight: 700;
 }
 
+input, textarea {
+    font-family: 'Inter', sans-serif;
+}
+
 .textGradient { 
     background: -webkit-linear-gradient(#e2e8f0, #1e293b);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
+
+.myShadow {
+    box-shadow: 3px 3px 1px 1px rgb(145, 145, 145);
+  }

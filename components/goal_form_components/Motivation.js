@@ -12,7 +12,7 @@ export default function Motivation({data, setter}) {
         <div className="flex flex-col items-center h-full relative text-lg">
             <h1 className='text-2xl text-center font-bold mx-2'>At last, set up some motivation to achieve your goal</h1>
 
-            <div className='flex flex-col mx-4 mt-8 gap-14'>
+            <div className='flex flex-col mx-6 mt-8 gap-14'>
 
                 <label className='flex flex-col'>
 
@@ -58,7 +58,7 @@ export default function Motivation({data, setter}) {
 
                 <label className='flex flex-col'>
                     Personal Text:
-                    <textarea name='personal_text' cols="26" rows="5" className='p-2 text-base border-slate-800 border rounded-md' placeholder="Write your personal text here..." onChange={(e) => setter.setPersonalText(e.target.value)}/>
+                    <textarea name='personal_text' rows="5" className={'p-2 text-base border-slate-800 border rounded-md'} placeholder="Write your personal text here..." onChange={(e) => setter.setPersonalText(e.target.value)}/>
                     <p className='text-slate-500 text-sm'>You will receive this text on your e-mail reminders.</p>
                 </label>
             </div>
