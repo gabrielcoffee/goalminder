@@ -19,7 +19,7 @@ export default function RootLayout({ children }) {
 	return (
 		<html lang="en">
 			<AuthProvider>
-				<body className={"bg-white text-foreground " + merriweather.className}>
+				<body className={" bg-white text-foreground " + merriweather.className}>
 					<Header/>
 					{children}
 				</body>

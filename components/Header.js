@@ -50,12 +50,20 @@ export default function Header() {
         <div className="sm:hidden overflow-hidden transition-all duration-500 ease-in-out border-b-[1px] border-b-slate-800"
            style={{ maxHeight: isOpen ? '300px' : '0px' }}>
 
-            <ul className={"flex flex-col items-center text-lg text-center"}> 
-                <li className='active:bg-slate-800 active:text-white w-full p-4'><Link href={"/set-goal"} onClick={toggleMenu}>Set New Goal</Link></li>
-                <li className='active:bg-slate-800 active:text-white w-full p-4'><Link href={"/goals"} onClick={toggleMenu}>My Goals</Link></li>
-                <li className='active:bg-slate-800 active:text-white w-full p-4'><Link href={"/profile"} onClick={toggleMenu}>Profile</Link></li>
-                <li className='active:bg-slate-800 active:text-white w-full p-4'><Link href={"/"} onClick={logout && toggleMenu}>Log out</Link></li>
-            </ul>
+            {
+                curUser ?
+                    <ul className={"flex flex-col items-center text-lg text-center"}> 
+                        <li className='active:bg-slate-800 active:text-white w-full p-4'><Link href={"/set-goal"} onClick={toggleMenu}>Set New Goal</Link></li>
+                        <li className='active:bg-slate-800 active:text-white w-full p-4'><Link href={"/goals"} onClick={toggleMenu}>My Goals</Link></li>
+                        <li className='active:bg-slate-800 active:text-white w-full p-4'><Link href={"/profile"} onClick={toggleMenu}>Profile</Link></li>
+                        <li className='active:bg-slate-800 active:text-white w-full p-4'><Link href={"/"} onClick={logout && toggleMenu}>Log out</Link></li>
+                    </ul>
+                :
+                    <ul className={"flex flex-col items-center text-lg text-center"}> 
+                        <li className='active:bg-slate-800 active:text-white w-full p-4'><Link href={"/set-goal"} onClick={toggleMenu}>Sign in</Link></li>
+                        <li className='active:bg-slate-800 active:text-white w-full p-4'><Link href={"/goals"} onClick={toggleMenu}>Log in</Link></li>
+                    </ul>
+            }      
         </div>
     </>
   )

@@ -1,5 +1,6 @@
 import React from "react"
 import CallToAction from "./CallToAction";
+import Demo from "./Demo";
 
 
 export default function Hero() {
@@ -10,6 +11,7 @@ export default function Hero() {
             <p className="text-lg mx-4">Set new goals, receive email reminders, and track your progress!</p>
 
             <CallToAction/>
+            <Demo/>
         </div>
     )
 }

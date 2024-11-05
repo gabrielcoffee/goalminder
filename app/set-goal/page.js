@@ -1,11 +1,11 @@
 'use client'
-import AreaSelection from '@/components/goal_form_components/AreaSelection';
-import CompletionDate from '@/components/goal_form_components/CompletionDate';
-import Frequency from '@/components/goal_form_components/Frequency';
-import Motivation from '@/components/goal_form_components/Motivation';
-import NameDesc from '@/components/goal_form_components/NameDesc';
-import Start from '@/components/goal_form_components/Start';
-import TimeOfReminder from '@/components/goal_form_components/TimeOfReminder';
+import AreaSelection from '@/components/form_components/AreaSelection';
+import CompletionDate from '@/components/form_components/CompletionDate';
+import Frequency from '@/components/form_components/Frequency';
+import Motivation from '@/components/form_components/Motivation';
+import NameDesc from '@/components/form_components/NameDesc';
+import Start from '@/components/form_components/Start';
+import TimeOfReminder from '@/components/form_components/TimeOfReminder';
 import Loading from '@/components/Loading';
 import Login from '@/components/Login';
 import { useAuth } from '@/context/AuthContext';
@@ -84,27 +84,26 @@ export default function SetGoalPage() {
 
     const totalSteps = steps_components.length-1;
 
-    const { curUser, userData, setUserData, loading } = useAuth();
+    const { curUser, loading } = useAuth();
 
 	useEffect(() => {
-		if (!curUser || !userData) {
+		if (!curUser) {
 			return 
 		}
-		setData(userData);
-	}, [curUser, userData])
+	}, [curUser])
 
     async function handleGoalCreation() {
         const userId = curUser.uid;
-        const docRef = doc(db, 'users', userId, 'goals', 'alsjdfhalsdifha');
+        const goalsCollectionRef = collection(db, 'users', userId, 'goals');
 
         try {
-            await setDoc(docRef, result);
-            console.log("Goal succesfully created");
+            await addDoc(goalsCollectionRef, result);
+            console.log("Goal succesfully saved on database");
         } catch (e) {
-            console.log(e.message);
+            console.log("ERROR ON SET GOAL: " + e.message);
         }
         
-        alert('goal created');
+        alert('goal ' + result.goal_name + ' was created');
         window.location.href = '/goals';
     }
 

@@ -3,6 +3,9 @@
 import { useState, useEffect } from 'react'
 import { Eye, EyeOff, LogIn, UserPlus } from 'lucide-react'
 import { useAuth } from '@/context/AuthContext'
+import { updateProfile } from 'firebase/auth';
+import { doc, setDoc } from 'firebase/firestore';
+import { db } from '@/firebase';
 
 export default function Login() {
 	const [isLogin, setIsLogin] = useState(true);
@@ -43,7 +46,19 @@ export default function Login() {
             }
 			else {
                 console.log("Signing new user");
-                await signup(email, password);
+                const userCredential = await signup(email, password);
+				const user = userCredential.user;
+
+				await updateProfile(user, {
+					displayName: username
+				})
+
+				// Save additional user info to Firestore
+				const userDocRef = doc(db, 'users', user.uid);
+				await setDoc(userDocRef, {
+					email: user.email,
+					username: username,
+				});
             }
 
 		} catch (e) {

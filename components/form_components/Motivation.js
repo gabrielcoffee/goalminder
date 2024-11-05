@@ -10,7 +10,7 @@ export default function Motivation({data, setter}) {
 
     return (
         <div className="flex flex-col items-center h-full relative text-lg">
-            <h1 className='text-2xl text-center font-bold mx-2'>At last, set up some motivation to achieve your goal</h1>
+            <h1 className='text-2xl text-center font-bold mx-2'>At last, set up some motivation to achieve your goal, these are optional.</h1>
 
             <div className='flex flex-col mx-6 mt-8 gap-14'>
 

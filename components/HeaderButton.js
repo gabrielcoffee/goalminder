@@ -1,16 +1,18 @@
 'use client' 
 import Link from 'next/link';
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 export default function HeaderButton(props) {
 
     const { children, href, clickHandler, border, white } = props;
 
+    const [selected, setSelected] = useState(false);
+    
     return (
         <Link href={href}>
             {
                 white ?
-                    <button onClick={clickHandler} className={'buttonShadow w-28 text-sm py-4 rounded-sm hover:bg-slate-100 active:scale-90 hover:border-slate-500' + (border && ' border border-white')}>
+                    <button onClick={clickHandler} className={'buttonShadow w-28 text-sm py-4 rounded-sm hover:bg-slate-100 active:scale-90 hover:border-slate-500' + (border && ' border border-white ') + (selected && ' border-b-slate-800')}>
                         <span>{children}</span>
                     </button>
                     :
