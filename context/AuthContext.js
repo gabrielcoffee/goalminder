@@ -37,38 +37,40 @@ export function AuthProvider({children}) {
             try {
                 // Set user to local context state
                 setLoading(true);
+                console.log('user: ',user);
+
                 setCurUser(user);
 
                 if (!user) {
                     console.log('No user found');
                     return
                 }
-                
-                console.log('Fetching user data...')
 
                 // If user exists fetch data from firestore database
                 const docRef = doc(db, 'users', user.uid);
                 const docSnap = await getDoc(docRef);
+                let firebaseData = {}
 
                 if (docSnap.exists()) {
                     console.log('Found user data');
-                    setUserData(docSnap.data);
+                    firebaseData = docSnap.data();
                 }
+                setUserData(firebaseData);
                 
             } catch(e) {
                 console.log(e.message);
             } finally {
                 setLoading(false);
             }
+            return unsubscribe;
         })
-
-        return unsubscribe;
         
     }, [])
 
     const value = {
         curUser,
         userData,
+        setUserData,
         signup,
         login,
         logout,

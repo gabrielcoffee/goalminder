@@ -31,6 +31,7 @@ export default function ProfilePage() {
 	return (
 		<div>
 		<span>Profile</span>
+		<span>currentUser: {curUser}</span>
 
 		</div>
 	)

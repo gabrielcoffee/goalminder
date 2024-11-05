@@ -18,16 +18,23 @@ export default function Login() {
 
 	useEffect(() => {
 		if (!isLogin) {
-		setPasswordsMatch(password === confirmPassword)
+		    setPasswordsMatch(password === confirmPassword)
 		}
 	}, [password, confirmPassword, isLogin])
 
 	async function handleSubmit() {
-		if (!username || !email || password < 6 || !passwordsMatch) {
-			return
-		}
+        if (isLogin) {
+            if (!email || !password) {
+                return
+            }
+        }
+        else {
+            if (!username || !email || password < 6 || !passwordsMatch) {
+                return
+            }
+        }
 
-		console.log('Trying to login or signup user');
+        console.log('authenticating');
 		setAuthenticating(true);
 		try {
 			if (isLogin) {
@@ -71,7 +78,7 @@ export default function Login() {
 				</p>
 			</div>
 			
-			<form onSubmit={handleSubmit} className="flex flex-col gap-2">
+			<div className="flex flex-col gap-2">
 
 				{!isLogin && (
 				<div className="space-y-1">
@@ -80,6 +87,7 @@ export default function Login() {
 					</label>
 					<input
 					id="username"
+                    autoComplete='username'
 					type="text"
 					placeholder="Enter your username"
 					value={username}
@@ -97,6 +105,7 @@ export default function Login() {
 				<input
 					id="email"
 					type="email"
+                    autoComplete='email'
 					placeholder="Enter your email"
 					value={email}
 					onChange={(e) => setEmail(e.target.value)}
@@ -116,6 +125,7 @@ export default function Login() {
 					value={password}
 					onChange={(e) => setPassword(e.target.value)}
 					required
+                    autoComplete='current-password'
 					className="text-base w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
 				/>
 				<button
@@ -137,6 +147,7 @@ export default function Login() {
 					type={showPassword ? 'text' : 'password'}
 					placeholder="Confirm your password"
 					value={confirmPassword}
+                    autoComplete='new-password'
 					onChange={(e) => setConfirmPassword(e.target.value)}
 					required
 					className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -156,10 +167,10 @@ export default function Login() {
 				)}
 				
 				<button
-				type="submit"
-				className={"w-full flex justify-center items-center p-4 mt-4 border border-transparent rounded-sm shadow-sm text-md font-medium" 
+				className={"w-full flex justify-center items-center p-4 mt-4 rounded-sm shadow-sm text-md font-medium" 
 					+ "  text-white bg-slate-800 hover:bg-slate-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-600 "}
 				disabled={!passwordsMatch}
+                onClick={handleSubmit}
 				>
 				{
 				authenticating ? (
@@ -176,7 +187,7 @@ export default function Login() {
 					)
 				}
 				</button>
-			</form>
+			</div>
 
 			</div>
 

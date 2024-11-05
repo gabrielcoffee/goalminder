@@ -14,7 +14,7 @@ export default function HeroButton(props) {
                     <span>{children}</span>
                 </button>
                 :
-                <button className={'buttonShadow w-48 p-4 rounded-sm bg-slate-800 hover:bg-slate-950 text-white active:scale-90' + (border && ' border border-slate-400')}>
+                <button className={'buttonShadow p-4 w-48  rounded-sm bg-slate-800 hover:bg-slate-700 text-white active:scale-90' + (border && ' border border-slate-400')}>
                     <span>{children}</span>
                 </button>
             }

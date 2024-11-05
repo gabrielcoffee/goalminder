@@ -22,8 +22,6 @@ export default function Frequency({ data, setter, canProgressSetter }) {
             canProgressSetter(true);
         }
 
-        
-
     }, [data.reminderFreq])
 
     useEffect(() => {

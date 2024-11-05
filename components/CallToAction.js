@@ -9,7 +9,7 @@ export default function CallToAction() {
 
     if (curUser) {
         return (
-            <div className="flex gap-10">
+            <div className="flex flex-col sm:flex-row gap-8 ">
                 <HeroButton href='/set-goal' border white>Set a new Goal</HeroButton>
                 <HeroButton href='/goals'>Check my Goals</HeroButton>
             </div>
@@ -17,7 +17,7 @@ export default function CallToAction() {
     }
 
     return (
-        <div className="flex gap-10">
+        <div className="flex flex-col sm:flex-row gap-8">
             <HeroButton href='/set-goal' border white>Sign up</HeroButton>
             <HeroButton href='/goals'>Log in</HeroButton>
         </div>

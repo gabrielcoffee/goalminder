@@ -9,8 +9,9 @@ import TimeOfReminder from '@/components/goal_form_components/TimeOfReminder';
 import Loading from '@/components/Loading';
 import Login from '@/components/Login';
 import { useAuth } from '@/context/AuthContext';
+import { db } from '@/firebase';
+import { addDoc, collection, doc, setDoc } from 'firebase/firestore';
 import { ArrowLeft, ArrowRight, BookCheck, Play } from 'lucide-react';
-import { Inter } from 'next/font/google';
 import React, { useEffect, useState } from 'react'
 
 
@@ -21,16 +22,14 @@ export default function SetGoalPage() {
     const [area, setArea] = useState(null);
     const [goalName, setGoalName] = useState("");
     const [description, setDescription] = useState("");
-    const [quantityPeriod, setQuantityPeriod] = useState(1);
-    const [timePeriod, setTimePeriod] = useState('week');
+    const [quantityPeriod, setQuantityPeriod] = useState(1);    // Not sent in the db
+    const [timePeriod, setTimePeriod] = useState('week');       // Not sent in the db
     const [completionDate, setCompletionDate] = useState("")
-    const [totalReminders, setTotalReminders] = useState(1);
     const [reminderFreq, setReminderFreq] = useState(null);
     const [timeOfReminder, setTimeOfReminder] = useState(null);
     const [motivationImg, setMotivationImg] = useState(null);
     const [personalText, setPersonalText] = useState("");
     const [haveAiText, setHaveAiText] = useState(false);
-
 
     const [canProgress, setCanProgress] = useState(true);
 
@@ -38,19 +37,13 @@ export default function SetGoalPage() {
         area:               area,
         goal_name:          goalName,
         description:        description,
-        quantity_period:    quantityPeriod,
-        time_period:        timePeriod,
         completion_date:    completionDate,
-        total_reminders:    totalReminders,
         reminder_freq:      reminderFreq,
         time_of_reminder:   timeOfReminder,
         motivation_img:     motivationImg,
         personal_text:      personalText,
-        have_ai_text:       haveAiText
-    }
-
-    const handleConfirmation = () => {
-		
+        have_ai_text:       haveAiText,
+        reports:            {}
     }
 
     const steps_components = [
@@ -91,8 +84,7 @@ export default function SetGoalPage() {
 
     const totalSteps = steps_components.length-1;
 
-    const { curUser, userData, loading } = useAuth();
-	const { data, setData } = useState(null);
+    const { curUser, userData, setUserData, loading } = useAuth();
 
 	useEffect(() => {
 		if (!curUser || !userData) {
@@ -100,6 +92,21 @@ export default function SetGoalPage() {
 		}
 		setData(userData);
 	}, [curUser, userData])
+
+    async function handleGoalCreation() {
+        const userId = curUser.uid;
+        const docRef = doc(db, 'users', userId, 'goals', 'alsjdfhalsdifha');
+
+        try {
+            await setDoc(docRef, result);
+            console.log("Goal succesfully created");
+        } catch (e) {
+            console.log(e.message);
+        }
+        
+        alert('goal created');
+        window.location.href = '/goals';
+    }
 
     if (loading) {
         return <Loading/>
@@ -156,7 +163,7 @@ export default function SetGoalPage() {
                     </button>
                     :
                     <button className='flex gap-4 bg-emerald-800 active:bg-emerald-700 sm:hover:bg-emerald-700 text-white rounded-sm items-center
-                        py-5 w-full sm:w-[20rem] justify-center text-2xl' onClick={handleConfirmation}>
+                        py-5 w-full sm:w-[20rem] justify-center text-2xl' onClick={handleGoalCreation}>
                         <span>Confirm</span>
                         <BookCheck size={36}/>
                     </button>
