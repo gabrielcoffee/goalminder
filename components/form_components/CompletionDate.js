@@ -22,7 +22,8 @@ export default function CompletionDate( { data, setter, canProgressSetter } ) {
             completion = addYears(today, data.quantityPeriod);
         }
 
-        setter.setCompletionDate(completion);
+        const formattedCompletionDate = format(completion, 'MM-dd-yyyy');
+        setter.setCompletionDate(formattedCompletionDate);
         setFormatedDate(format(completion, 'MMMM dd, yyyy'))
 
 

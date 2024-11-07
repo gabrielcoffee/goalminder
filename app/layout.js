@@ -1,5 +1,4 @@
 import "./globals.css";
-import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import { AuthProvider } from "@/context/AuthContext";
 import { Merriweather } from "next/font/google";

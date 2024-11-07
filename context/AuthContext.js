@@ -13,7 +13,7 @@ export function useAuth() {
 
 export function AuthProvider({children}) {
     const [curUser, setCurUser] = useState(null);
-    const [userGoals, setUserGoals] = useState([]);
+    const [userGoals, setUserGoals] = useState(null);
     const [userData, setUserData] = useState(null);
     const [loading, setLoading] = useState(true);
 
@@ -55,11 +55,12 @@ export function AuthProvider({children}) {
                 // FETCHING USER GOALS DATA               
                 const goalsRef = collection(db, 'users', user.uid, 'goals');
                 const goalsSnap = await getDocs(goalsRef);
+
                 const goals = goalsSnap.docs.map(goal => ({
                     id: goal.id,
                     ...goal.data()
                 }));
-
+                
                 setUserGoals(goals);
                 
             } catch(e) {
@@ -84,6 +85,7 @@ export function AuthProvider({children}) {
     const value = {
         curUser,
         userData,
+        userGoals,
         setUserData,
         signup,
         login,

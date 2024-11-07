@@ -1,9 +1,10 @@
+import { Loader } from 'lucide-react'
 import React from 'react'
 
 export default function Loading() {
   return (
-    <div className="flex flex-col flex-1 justify-center items-center">
-        <i className="fa-solid fa-spinner animate-spin text-4xl sm:text-5xl"/>
+    <div className="flex flex-col justify-center items-center h-screen">
+        <Loader className='animate-spin mb-28' size={50} />
     </div>
   )
 }

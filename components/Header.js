@@ -14,12 +14,17 @@ export default function Header() {
     const [isOpen, setIsOpen] = useState(false);
     const toggleMenu = () => setIsOpen(!isOpen);
 
+    const handleMobileLogout = () => {
+        logout();
+        toggleMenu();
+    }
+
   return (
     <>
         <header className="flex justify-between w-full p-1 sm:border-b-[1px] border-slate-800">
 
             <div className='text-2xl md:text-xl pl-4 items-center flex text-slate-800'>
-                <Link href={"/"}>
+                <Link href={"/"} onClick={isOpen && toggleMenu}>
                     <span>Goalminder</span>
                 </Link>
             </div>
@@ -56,7 +61,7 @@ export default function Header() {
                         <li className='active:bg-slate-800 active:text-white w-full p-4'><Link href={"/set-goal"} onClick={toggleMenu}>Set New Goal</Link></li>
                         <li className='active:bg-slate-800 active:text-white w-full p-4'><Link href={"/goals"} onClick={toggleMenu}>My Goals</Link></li>
                         <li className='active:bg-slate-800 active:text-white w-full p-4'><Link href={"/profile"} onClick={toggleMenu}>Profile</Link></li>
-                        <li className='active:bg-slate-800 active:text-white w-full p-4'><Link href={"/"} onClick={logout && toggleMenu}>Log out</Link></li>
+                        <li className='active:bg-slate-800 active:text-white bg-slate-100 font-thin w-full p-4'><Link href={"/"} onClick={handleMobileLogout}>Log out</Link></li>
                     </ul>
                 :
                     <ul className={"flex flex-col items-center text-lg text-center"}> 

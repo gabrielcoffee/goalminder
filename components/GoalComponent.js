@@ -21,6 +21,7 @@ export default function GoalComponent({ goal_info, reports_info}) {
 
     const numDummyBars = DEFAULT_BARS - reports_info.length;
     const dummyData = new Array(numDummyBars).fill({progressScale: null})
+
     const finalData = [...reports_info, ...dummyData];
     const [isClient, setIsClient] = useState(false);
 
@@ -44,20 +45,20 @@ export default function GoalComponent({ goal_info, reports_info}) {
             boxShadow: '3px 3px 1px 1px ' + option.color,
             }} className='myShadow rounded-md border mx-2 bg-slate-100 flex flex-col items-center'>
 
-            <div className='flex items-center'>
+            <div className='flex items-center justify-between'>
                 
-                <div className='flex items-center mr-auto'>
+                <div className='flex items-center '>
                     <div className='rounded-full p-2'>
                         {<option.icon style={{color: option.color }} size={30}/>}
                     </div>
-                    <span className='w-full'>{goal_info.name}</span>
+                    <span className='w-full'>{goal_info.goal_name}</span>
                 </div>
                 
-                <div className='flex items-center ml-auto'>
+                <div className='flex items-center'>
                     <div className='rounded-full p-2'>
                         <Flag size={30} style={{color: option.color }}/>
                     </div>
-                    <span>by {formatDate(goal_info.completionDate)}</span>
+                    <span className='text-sm'>{formatDate(goal_info.completion_date)}</span>
                 </div>
             </div>
 
