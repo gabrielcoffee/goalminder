@@ -32,55 +32,62 @@ export function AuthProvider({children}) {
         return signOut(auth);
     }
 
-    useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, async user => {
-            try {
-                // Set user to local context state
-                setLoading(true);
-                setCurUser(user);
+    function refresh() {
+        if (curUser) {
+            fetchUserDataAndGoals(curUser);
+        }
+    }
 
-                if (!user) {
-                    console.log('No user found');
-                    return
-                }
-                console.log('user: ',user);
+    const fetchUserDataAndGoals = async (user) => {
+        try {
+            setLoading(true);
 
-                // FETCHING USER GENERAL DATA
-                const docRef = doc(db, 'users', user.uid);
-                const docSnap = await getDoc(docRef);
-                if (docSnap.exists()) {
-                    setUserData(docSnap.data());
-                }
-                
-                // FETCHING USER GOALS DATA               
-                const goalsRef = collection(db, 'users', user.uid, 'goals');
-                const goalsSnap = await getDocs(goalsRef);
-
-                const goals = goalsSnap.docs.map(goal => ({
-                    id: goal.id,
-                    ...goal.data()
-                }));
-                
-                setUserGoals(goals);
-                
-            } catch(e) {
-                console.log("ERROR ON AUTH CONTEXT: " + e.message);
-            } finally {
-                setLoading(false);
+            // FETCHING USER GENERAL DATA
+            const docRef = doc(db, 'users', user.uid);
+            const docSnap = await getDoc(docRef);
+            if (docSnap.exists()) {
+                setUserData(docSnap.data());
             }
-            return unsubscribe;
+            
+            // FETCHING USER GOALS DATA               
+            const goalsRef = collection(db, 'users', user.uid, 'goals');
+            const goalsSnap = await getDocs(goalsRef);
+
+            const goals = goalsSnap.docs.map(goal => ({
+                id: goal.id,
+                ...goal.data()
+            }));
+            
+            setUserGoals(goals);
+            
+        } 
+        catch(e) {
+            console.log("Error fetching user data and goals: " + e.message);
+        } 
+        finally {
+            setLoading(false);
+        }
+    }
+
+    const unsubscribe = onAuthStateChanged(auth, async user => {
+        
+        return unsubscribe;
+    })
+
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                setCurUser(user);
+                fetchUserDataAndGoals(user);
+            } else {
+                setCurUser(null);
+                setUserData(null);
+                setUserGoals([]);
+            }
         })
+
+        return unsubscribe;
     }, [])
-
-    useEffect(() => {
-        if (userData)
-            console.log('user data: ', userData);
-    }, [userData])
-
-    useEffect(() => {
-        if (userGoals && userGoals.length > 0)
-            console.log('user goals: ', userGoals);
-    }, [userGoals])
 
     const value = {
         curUser,
@@ -90,6 +97,7 @@ export function AuthProvider({children}) {
         signup,
         login,
         logout,
+        refresh,
         loading
     }
 

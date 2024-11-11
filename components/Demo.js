@@ -1,4 +1,5 @@
 import React from 'react'
+import GoalChartComponent from './GoalChartComponent';
 
 const goals = [
 	{
@@ -110,6 +111,11 @@ const fit = [
 
 export default function Demo() {
   return (
-    <div>Demo... TODO</div>
+    <div>
+		<div className='w-full sm:w-4/6 gap-8 flex flex-col mb-8' >
+			demo...
+			
+		</div>
+	</div>
   )
 }

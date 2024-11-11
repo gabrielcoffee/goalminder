@@ -37,7 +37,6 @@ export default function Login() {
             }
         }
 
-        console.log('authenticating');
 		setAuthenticating(true);
 		try {
 			if (isLogin) {
@@ -45,7 +44,7 @@ export default function Login() {
                 await login(email, password);
             }
 			else {
-                console.log("Signing new user");
+                console.log("Signing up new user");
                 const userCredential = await signup(email, password);
 				const user = userCredential.user;
 
@@ -78,9 +77,9 @@ export default function Login() {
 	}
 
 	return (
-		<div className={"flex items-center justify-center mt-20"}>
+		<div className={"flex items-center justify-center fixed inset-0"}>
 
-		<div className="w-[350px] overflow-hidden mb-20">
+		<div className="w-[350px] overflow-hidden">
 
 			<div className="p-6">
 

@@ -14,7 +14,6 @@ import { addDoc, collection, doc, setDoc } from 'firebase/firestore';
 import { ArrowLeft, ArrowRight, BookCheck, Play } from 'lucide-react';
 import React, { useEffect, useState } from 'react'
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage'
-import { useUploadThing } from '@uploadthing/react';
 
 
 export default function SetGoalPage() {
@@ -28,26 +27,13 @@ export default function SetGoalPage() {
     const [timePeriod, setTimePeriod] = useState('week');       // Not sent in the db (completiondate) 
     const [completionDate, setCompletionDate] = useState("")
     const [reminderFreq, setReminderFreq] = useState(null);
+    const [totalReminders, setTotalReminders] = useState(0);
     const [timeOfReminder, setTimeOfReminder] = useState(null);
-    const [motivationImg, setMotivationImg] = useState(null);   // Not sent in the db (only url)
-    const [motivationImgUrl, setMotivationImgUrl] = useState(null);
+    const [motivationImg, setMotivationImg] = useState(null);   // Not sent in the db (only url in the function handle goal Creation)
     const [personalText, setPersonalText] = useState("");
     const [haveAiText, setHaveAiText] = useState(false);
 
     const [canProgress, setCanProgress] = useState(true);
-
-    const result = {
-        area:               area,
-        goal_name:          goalName,
-        description:        description,
-        completion_date:    completionDate,
-        reminder_freq:      reminderFreq,
-        time_of_reminder:   timeOfReminder,
-        motivation_img_url: motivationImgUrl,
-        personal_text:      personalText,
-        have_ai_text:       haveAiText,
-        reports:            []
-    }
 
     const steps_components = [
         { 
@@ -71,7 +57,7 @@ export default function SetGoalPage() {
         {
             comp: <Frequency/>,
             data: { reminderFreq, completionDate },
-            setter: setReminderFreq
+            setter: { setReminderFreq, setTotalReminders }
         },
         {
             comp: <TimeOfReminder/>,
@@ -87,8 +73,7 @@ export default function SetGoalPage() {
 
     const totalSteps = steps_components.length-1;
 
-    const { curUser, userData, setUserData, loading } = useAuth();
-    const { startUpload } = useUploadThing("uploadRoute");
+    const { curUser, loading } = useAuth();
 
 	useEffect(() => {
 		if (!curUser) {
@@ -98,63 +83,33 @@ export default function SetGoalPage() {
 
     async function handleGoalCreation() {
 
-        // Bellow are code for uploading images that I may use in the future (imgur and firebase storage)
+        const userId = curUser.uid;
+        const goalsCollectionRef = collection(db, 'users', userId, 'goals');
 
-        /*
-        // UPLOADING IMAGES IN IMGUR AND GETTING THE URL (DIDN'T DO IT BECAUSE 
-        //IT WOUDLN'T WORK FOR SOME REASON AND MAYBE I WOULD NEED A VPN)
-        const formData = new FormData();
-        formData.append('file', motivationImg);
+        let result;
         
-        try {
-            const response = await fetch("https://api.imgur.com/3/upload", {
-                method: "POST",
-                headers: {
-                Authorization: "Client-ID " + process.env.NEXT_PUBLIC_IMGUR_CLIENT_ID,
-                Accept: "application/json",
-            },
-                body: formData,
-            });
-            
-            const data = await response.json();
-
-            if (data.success) {
-                console.log("Uploaded Image URL:", data.data.link);
-                setMotivationImgUrl(data.data.link);
-                console.log('mot img', motivationImgUrl)
-            } else {
-                console.error("Imgur upload failed:", data);
-            }
-        } catch (error) {
-            console.error("Error uploading image:", error);
-        }
-        */
-
-        /*
-        // SAVING IMG WITH FIREBASE FIRESTORE (DIDN'T USE IT BECAUSE I WOULD HAVE TO PAY IF IT EXCEED THE FREE PLAN AMOUNT
-        // AND THERE IS NO WAY TO PREVENT IT FROM HAPPENING)
+        // SAVING IMG WITH FIREBASE FIRESTORE
         const storage = getStorage();
         try {
             const storageRef = ref(storage, `goals/${userId}/${motivationImg.name}`);
             const snapshot = await uploadBytes(storageRef, motivationImg); // Upload the file to Firebase Storage
             const imageUrl = await getDownloadURL(snapshot.ref); // Get the download URL after the upload is complete
-            setMotivationImgUrl(imageUrl);
 
+            result = {
+                area:               area,
+                goal_name:          goalName,
+                description:        description,
+                completion_date:    completionDate,
+                reminder_freq:      reminderFreq,
+                time_of_reminder:   timeOfReminder,
+                total_reminders:    totalReminders,
+                motivation_img_url: imageUrl,
+                personal_text:      personalText,
+                have_ai_text:       haveAiText,
+                reports:            []
+            }
         } catch (error) {
             console.error("SET GOAL - Error uploading the image:", error);
-        }
-        */
-
-        const userId = curUser.uid;
-        const goalsCollectionRef = collection(db, 'users', userId, 'goals');
-
-        // UPLOADTHING Uploading the image and getting the url
-        try {
-            const [result] = await startUpload([file]);
-            setMotivationImgUrl(result.fileUrl);
-            console.log("Uploaded motivation img on the url: ", motivationImgUrl);
-        } catch (error) {
-            console.error("Upload failed:", error);
         }
 
         // Save the new goal to the database
@@ -164,16 +119,15 @@ export default function SetGoalPage() {
         } catch (e) {
             console.log("ERROR ON SET GOAL: " + e.message);
         }
-        console.log('result', result)
-        //window.location.href = '/goals';
+        window.location.href = '/goals';
+    }
+
+    if (!curUser) {
+        return <Login/>
     }
 
     if (loading) {
         return <Loading/>
-    }
-  
-    if (!curUser) {
-        return <Login/>
     }
 
     return (
@@ -232,3 +186,45 @@ export default function SetGoalPage() {
         </div>
     )
 }
+
+// Bellow is commented code for uploading images that I may use in the future 
+
+/*
+// UPLOADING IMAGES IN IMGUR
+const formData = new FormData();
+formData.append('file', motivationImg);
+
+try {
+    const response = await fetch("https://api.imgur.com/3/upload", {
+        method: "POST",
+        headers: {
+        Authorization: "Client-ID " + process.env.NEXT_PUBLIC_IMGUR_CLIENT_ID,
+        Accept: "application/json",
+    },
+        body: formData,
+    });
+    
+    const data = await response.json();
+
+    if (data.success) {
+        console.log("Uploaded Image URL:", data.data.link);
+        setMotivationImgUrl(data.data.link);
+        console.log('mot img', motivationImgUrl)
+    } else {
+        console.error("Imgur upload failed:", data);
+    }
+} catch (error) {
+    console.error("Error uploading image:", error);
+}
+*/
+
+// UPLOADTHING 
+/*
+try {
+    const [result] = await startUpload([file]);
+    setMotivationImgUrl(result.fileUrl);
+    console.log("Uploaded motivation img on the url: ", motivationImgUrl);
+} catch (error) {
+    console.error("Upload failed:", error);
+}
+    */

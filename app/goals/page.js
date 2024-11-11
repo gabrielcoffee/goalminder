@@ -1,5 +1,5 @@
 'use client'
-import GoalComponent from '@/components/GoalComponent';
+import GoalChartComponent from '@/components/GoalChartComponent';
 import { useAuth } from '@/context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { Briefcase, Dumbbell, Heart, Palette, User, Wallet } from 'lucide-react'
@@ -31,7 +31,11 @@ export default function GoalsPage() {
 	const [goals, setGoals] = useState([]);
 	const [areaIcons, setAreaIcons] = useState(area_icons_default);
 
-	const { curUser, userData, userGoals, loading } = useAuth();
+	const { curUser, userGoals, loading, refresh } = useAuth();
+
+	useEffect(() => {
+		refresh();
+	}, [])
 
 	useEffect(() => {
 		if (curUser && curUser.displayName) {
@@ -55,10 +59,13 @@ export default function GoalsPage() {
 	if (loading) {
 		return <Loading/>
 	}
-  
+
+
+	  
 	if (!curUser) {
 		return <Login/>
 	}
+	
 
     return (
         <div className='flex flex-col items-center mt-20 gap-10 w-full'>
@@ -95,7 +102,7 @@ export default function GoalsPage() {
 			<div className='w-full sm:w-4/6 gap-8 flex flex-col mb-8' >
 				{
 					goals.map((goal) => (
-						<GoalComponent key={goal.id} goal_info={goal} reports_info={goal.reports}/>
+						<GoalChartComponent key={goal.id} goal_info={goal} reports_info={goal.reports}/>
 					))
 				}
 			</div>
