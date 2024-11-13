@@ -48,10 +48,7 @@ export function AuthProvider({children}) {
                 setUserData(null);
                 setUserGoals([]);
             }
-
-            setLoading(false);
         })
-
         return unsubscribe;
     }, [])
 

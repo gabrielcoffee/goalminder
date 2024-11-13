@@ -34,6 +34,7 @@ export default function SetGoalPage() {
     const [haveAiText, setHaveAiText] = useState(false);
 
     const [canProgress, setCanProgress] = useState(true);
+    const [canConfirm, setCanConfirm] = useState(true); 
 
     const steps_components = [
         { 
@@ -77,33 +78,36 @@ export default function SetGoalPage() {
 
     async function handleGoalCreation() {
 
+        setCanConfirm(false);
         const userId = curUser.uid;
         const goalsCollectionRef = collection(db, 'users', userId, 'goals');
 
-        let result;
+        let imageUrl = "";
         
         // SAVING IMG WITH FIREBASE FIRESTORE
-        const storage = getStorage();
-        try {
-            const storageRef = ref(storage, `goals/${userId}/${motivationImg.name}`);
-            const snapshot = await uploadBytes(storageRef, motivationImg); // Upload the file to Firebase Storage
-            const imageUrl = await getDownloadURL(snapshot.ref); // Get the download URL after the upload is complete
-
-            result = {
-                area:               area,
-                goal_name:          goalName,
-                description:        description,
-                completion_date:    completionDate,
-                reminder_freq:      reminderFreq,
-                time_of_reminder:   timeOfReminder,
-                total_reminders:    totalReminders,
-                motivation_img_url: imageUrl,
-                personal_text:      personalText,
-                have_ai_text:       haveAiText,
-                reports:            []
+        if (motivationImg) {
+            const storage = getStorage();
+            try {
+                const storageRef = ref(storage, `goals/${userId}/${motivationImg.name}`);
+                const snapshot = await uploadBytes(storageRef, motivationImg); // Upload the file to Firebase Storage
+                imageUrl = await getDownloadURL(snapshot.ref); // Get the download URL after the upload is complete
+            } catch (error) {
+                console.error("SET GOAL - Error uploading the image:", error);
             }
-        } catch (error) {
-            console.error("SET GOAL - Error uploading the image:", error);
+        }
+
+        const result = {
+            area:               area,
+            goal_name:          goalName,
+            description:        description,
+            completion_date:    completionDate,
+            reminder_freq:      reminderFreq,
+            time_of_reminder:   timeOfReminder,
+            total_reminders:    totalReminders,
+            motivation_img_url: imageUrl,
+            personal_text:      personalText,
+            have_ai_text:       haveAiText,
+            reports:            []
         }
 
         // Save the new goal to the database
@@ -171,7 +175,7 @@ export default function SetGoalPage() {
                     </button>
                     :
                     <button className='flex gap-4 bg-emerald-800 active:bg-emerald-700 sm:hover:bg-emerald-700 text-white rounded-sm items-center
-                        py-5 w-full sm:w-[20rem] justify-center text-2xl' onClick={handleGoalCreation}>
+                        py-5 w-full sm:w-[20rem] justify-center text-2xl' onClick={canConfirm ? handleGoalCreation : undefined}>
                         <span>Confirm</span>
                         <BookCheck size={36}/>
                     </button>

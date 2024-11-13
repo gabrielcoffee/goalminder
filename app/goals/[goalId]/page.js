@@ -9,6 +9,9 @@ import { Bar, CartesianGrid, ResponsiveContainer, XAxis, YAxis } from 'recharts'
 import GoalChartComponent from '@/components/GoalChartComponent';
 import Link from 'next/link';
 import { formatDate } from 'date-fns';
+import { ref } from 'firebase/storage';
+import { deleteDoc, doc } from 'firebase/firestore';
+import { db } from '@/firebase';
 
 const area_options = [
     { name: "Fitness", color: "#FF6B6B", icon: Dumbbell },       // Red    - Energy and strength
@@ -30,12 +33,6 @@ export default function GoalInfoPage({ params }) {
 	const { curUser, userGoals, loading } = useAuth();
 
 	useEffect(() => {
-		if (curUser && curUser.displayName) {
-            setUsername(curUser.displayName);
-        }
-	},[curUser])
-
-	useEffect(() => {
 		if (userGoals) {
             const goal = userGoals.find(goal => goal.id === params.goalId);
             if (goal) {
@@ -47,14 +44,24 @@ export default function GoalInfoPage({ params }) {
         }
 	}, [userGoals])
 
-    const handleDeleteGoal = () => {
-        
+    useEffect(() => {
+		if (curUser && curUser.displayName) {
+            setUsername(curUser.displayName);
+        }
+	},[curUser])
+
+    async function handleDeleteGoal() {
+        const goalRef = doc(db, 'users', curUser.uid, 'goals', params.goalId);
+        try {
+            await deleteDoc(goalRef);
+            console.log('Goal deleted');
+        }
+        catch (e) {
+            console.log(e.message);
+        }
+        window.location.href = '/goals';
     }
   
-	if (!curUser) {
-		return <Login/>
-	}
-
 	if (loading) {
 		return <Loading/>
 	}
@@ -66,7 +73,7 @@ export default function GoalInfoPage({ params }) {
     // Creates dummy data for showing 30 bars on the chart
     const numDummyBars = goalData.total_reminders - goalData.reports.length;
     const dummyData = new Array(numDummyBars).fill({progress_scale: 0})
-    const finalData = [...goalData.reports, ...dummyData];
+    const finalReportsData = [...goalData.reports, ...dummyData];
 
     const area_option = area_options.find(option => option.name == goalData.area);
 
@@ -108,7 +115,7 @@ export default function GoalInfoPage({ params }) {
                 <span><strong>{goalData.goal_name}</strong></span>
             </div>
             
-            <GoalChartComponent goal_info={goalData} reports_info={goalData.reports} only_chart={true}/>
+            <GoalChartComponent goal_info={goalData} reports_info={finalReportsData} only_chart={true}/>
             
             <div className='flex flex-col text-xl gap-10 m-4'>
 
@@ -151,7 +158,7 @@ export default function GoalInfoPage({ params }) {
                     
                 </div>
             </div>
-            <button onClick={() => setShowModalDelete(true)} className='text-center items-center p-4 text-red-600 bg-red-50'>Delete Goal</button>
+            <button onClick={() => setShowModalDelete(true)} className='text-center items-center p-4 text-red-600 hover:text-white hover:bg-red-600 active:text-white active:bg-red-600  bg-red-50'>Delete Goal</button>
         </div>
       )
 }
