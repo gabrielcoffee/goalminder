@@ -38,6 +38,23 @@ export function AuthProvider({children}) {
         }
     }
 
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                setCurUser(user);
+                fetchUserDataAndGoals(user);
+            } else {
+                setCurUser(null);
+                setUserData(null);
+                setUserGoals([]);
+            }
+
+            setLoading(false);
+        })
+
+        return unsubscribe;
+    }, [])
+
     const fetchUserDataAndGoals = async (user) => {
         try {
             setLoading(true);
@@ -63,31 +80,11 @@ export function AuthProvider({children}) {
         } 
         catch(e) {
             console.log("Error fetching user data and goals: " + e.message);
-        } 
+        }
         finally {
             setLoading(false);
         }
     }
-
-    const unsubscribe = onAuthStateChanged(auth, async user => {
-        
-        return unsubscribe;
-    })
-
-    useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, async (user) => {
-            if (user) {
-                setCurUser(user);
-                fetchUserDataAndGoals(user);
-            } else {
-                setCurUser(null);
-                setUserData(null);
-                setUserGoals([]);
-            }
-        })
-
-        return unsubscribe;
-    }, [])
 
     const value = {
         curUser,

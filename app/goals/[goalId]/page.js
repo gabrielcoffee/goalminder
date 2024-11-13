@@ -47,18 +47,10 @@ export default function GoalInfoPage({ params }) {
         }
 	}, [userGoals])
 
-    const handleDeleteModal = () => {
-        setShowModalDelete(!showModalDelete);
-    }
-
     const handleDeleteGoal = () => {
-
+        
     }
-
-    const showModalDeleteGoal = () => {
-
-    }
-
+  
 	if (!curUser) {
 		return <Login/>
 	}
@@ -75,7 +67,6 @@ export default function GoalInfoPage({ params }) {
     const numDummyBars = goalData.total_reminders - goalData.reports.length;
     const dummyData = new Array(numDummyBars).fill({progress_scale: 0})
     const finalData = [...goalData.reports, ...dummyData];
-    console.log(finalData);
 
     const area_option = area_options.find(option => option.name == goalData.area);
 
@@ -95,7 +86,7 @@ export default function GoalInfoPage({ params }) {
                 </div>
 
                 <div className='flex justify-around'>
-                    <button onClick={handleDeleteModal} >Cancel</button>
+                    <button onClick={() => setShowModalDelete(false)} >Cancel</button>
                     <button className='text-red-600' onClick={handleDeleteGoal}>Delete Goal</button>
                 </div>
             </div>
@@ -160,7 +151,7 @@ export default function GoalInfoPage({ params }) {
                     
                 </div>
             </div>
-            <button onClick={handleDeleteModal} className='text-center items-center p-4 text-red-600 bg-red-50'>Delete Goal</button>
+            <button onClick={() => setShowModalDelete(true)} className='text-center items-center p-4 text-red-600 bg-red-50'>Delete Goal</button>
         </div>
       )
 }

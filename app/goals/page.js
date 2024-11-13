@@ -34,7 +34,9 @@ export default function GoalsPage() {
 	const { curUser, userGoals, loading, refresh } = useAuth();
 
 	useEffect(() => {
-		refresh();
+		if (curUser) {
+			refresh();
+		}
 	}, [])
 
 	useEffect(() => {
@@ -59,13 +61,10 @@ export default function GoalsPage() {
 	if (loading) {
 		return <Loading/>
 	}
-
-
 	  
 	if (!curUser) {
 		return <Login/>
 	}
-	
 
     return (
         <div className='flex flex-col items-center mt-20 gap-10 w-full'>

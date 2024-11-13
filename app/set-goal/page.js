@@ -75,12 +75,6 @@ export default function SetGoalPage() {
 
     const { curUser, loading } = useAuth();
 
-	useEffect(() => {
-		if (!curUser) {
-			return 
-		}
-	}, [curUser])
-
     async function handleGoalCreation() {
 
         const userId = curUser.uid;
@@ -122,12 +116,12 @@ export default function SetGoalPage() {
         window.location.href = '/goals';
     }
 
-    if (!curUser) {
-        return <Login/>
-    }
-
     if (loading) {
         return <Loading/>
+    }
+
+    if (!curUser) {
+        return <Login isSignUp={true}/>
     }
 
     return (
@@ -186,45 +180,3 @@ export default function SetGoalPage() {
         </div>
     )
 }
-
-// Bellow is commented code for uploading images that I may use in the future 
-
-/*
-// UPLOADING IMAGES IN IMGUR
-const formData = new FormData();
-formData.append('file', motivationImg);
-
-try {
-    const response = await fetch("https://api.imgur.com/3/upload", {
-        method: "POST",
-        headers: {
-        Authorization: "Client-ID " + process.env.NEXT_PUBLIC_IMGUR_CLIENT_ID,
-        Accept: "application/json",
-    },
-        body: formData,
-    });
-    
-    const data = await response.json();
-
-    if (data.success) {
-        console.log("Uploaded Image URL:", data.data.link);
-        setMotivationImgUrl(data.data.link);
-        console.log('mot img', motivationImgUrl)
-    } else {
-        console.error("Imgur upload failed:", data);
-    }
-} catch (error) {
-    console.error("Error uploading image:", error);
-}
-*/
-
-// UPLOADTHING 
-/*
-try {
-    const [result] = await startUpload([file]);
-    setMotivationImgUrl(result.fileUrl);
-    console.log("Uploaded motivation img on the url: ", motivationImgUrl);
-} catch (error) {
-    console.error("Upload failed:", error);
-}
-    */

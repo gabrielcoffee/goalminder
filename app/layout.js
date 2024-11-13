@@ -17,12 +17,13 @@ export const metadata = {
 export default function RootLayout({ children }) {
 	return (
 		<html lang="en">
-			<AuthProvider>
 				<body className={" bg-white text-foreground " + merriweather.className}>
+					<AuthProvider>
 					<Header/>
 					{children}
+					</AuthProvider>
 				</body>
-			</AuthProvider>
+			
 		</html>
 	);
 }

@@ -7,8 +7,8 @@ import { updateProfile } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import { db } from '@/firebase';
 
-export default function Login() {
-	const [isLogin, setIsLogin] = useState(true);
+export default function Login({isSignUp}) {
+	const [isLogin, setIsLogin] = useState(isSignUp ? false : true);
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [confirmPassword, setConfirmPassword] = useState('');

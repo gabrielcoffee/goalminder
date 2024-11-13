@@ -20,7 +20,6 @@ export default function HeaderButton(props) {
                         <span>{children}</span>
                     </button>
             }
-            
         </Link>
     )
 }
