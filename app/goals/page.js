@@ -31,13 +31,7 @@ export default function GoalsPage() {
 	const [goals, setGoals] = useState([]);
 	const [areaIcons, setAreaIcons] = useState(area_icons_default);
 
-	const { curUser, userGoals, loading, refresh } = useAuth();
-
-	useEffect(() => {
-		if (curUser) {
-			refresh();
-		}
-	}, [])
+	const { curUser, userGoals, loading } = useAuth();
 
 	useEffect(() => {
 		if (curUser && curUser.displayName) {

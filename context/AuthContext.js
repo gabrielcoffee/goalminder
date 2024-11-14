@@ -14,7 +14,6 @@ export function useAuth() {
 export function AuthProvider({children}) {
     const [curUser, setCurUser] = useState(null);
     const [userGoals, setUserGoals] = useState(null);
-    const [userData, setUserData] = useState(null);
     const [loading, setLoading] = useState(true);
 
     // Authorization Handlers
@@ -28,7 +27,7 @@ export function AuthProvider({children}) {
 
     function logout() {
         setCurUser(null);
-        setUserData(null)
+        setUserGoals(null);
         return signOut(auth);
     }
 
@@ -42,27 +41,20 @@ export function AuthProvider({children}) {
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
             if (user) {
                 setCurUser(user);
-                fetchUserDataAndGoals(user);
+                fetchUserGoals(user);
             } else {
                 setCurUser(null);
-                setUserData(null);
                 setUserGoals([]);
+                setLoading(false);
             }
         })
         return unsubscribe;
     }, [])
 
-    const fetchUserDataAndGoals = async (user) => {
+    const fetchUserGoals = async (user) => {
         try {
             setLoading(true);
 
-            // FETCHING USER GENERAL DATA
-            const docRef = doc(db, 'users', user.uid);
-            const docSnap = await getDoc(docRef);
-            if (docSnap.exists()) {
-                setUserData(docSnap.data());
-            }
-            
             // FETCHING USER GOALS DATA               
             const goalsRef = collection(db, 'users', user.uid, 'goals');
             const goalsSnap = await getDocs(goalsRef);
@@ -85,13 +77,10 @@ export function AuthProvider({children}) {
 
     const value = {
         curUser,
-        userData,
         userGoals,
-        setUserData,
         signup,
         login,
         logout,
-        refresh,
         loading
     }
 

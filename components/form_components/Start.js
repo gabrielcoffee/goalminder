@@ -6,7 +6,7 @@ const maxGoals = 6;
 
 export default function Start({ canProgressSetter }) {
     
-    const { curUser, userData, userGoals, loading } = useAuth();
+    const { curUser, userGoals, loading } = useAuth();
     const [isFirstGoal, setIsFirstGoal] = useState(false);
     const [username, setUsername] = useState("User");
     const [hitLimit, setHitLimit] = useState(true);

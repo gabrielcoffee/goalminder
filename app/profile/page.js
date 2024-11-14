@@ -2,6 +2,8 @@
 import Loading from '@/components/Loading';
 import Login from '@/components/Login';
 import { useAuth } from '@/context/AuthContext';
+import { db } from '@/firebase';
+import { deleteDoc, doc } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react'
 
 const metadata = {
@@ -10,22 +12,31 @@ const metadata = {
 
 export default function ProfilePage() {
 
-	const { curUser, userData, loading, refresh, userGoals } = useAuth();
+	const { curUser, loading, userGoals, logout} = useAuth();
 
     const [showModalDelete, setShowModalDelete] = useState(false);
 	const [username, setUsername] = useState("...");
 	const [email, setEmail] = useState("...");
 
 	useEffect(() => {
-		if (!curUser || !userData) {
+		if (!curUser) {
 			return 
 		}
-		setUsername(userData.username);
-		setEmail(userData.email);
-	}, [curUser, userData])
+		setUsername(curUser.displayName);
+		setEmail(curUser.email);
+	}, [curUser])
 
-	const handleDeleteAccount = () => {
-
+	async function handleDeleteAccount() {
+		const goalRef = doc(db, 'users', curUser.uid);
+        try {
+            await deleteDoc(goalRef);
+            console.log('Account deleted');
+        }
+        catch (e) {
+            console.log(e.message);
+        }
+		logout();
+        window.location.href = '/';
 	}
 
 	if (loading) {
