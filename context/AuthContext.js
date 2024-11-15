@@ -31,12 +31,6 @@ export function AuthProvider({children}) {
         return signOut(auth);
     }
 
-    function refresh() {
-        if (curUser) {
-            fetchUserDataAndGoals(curUser);
-        }
-    }
-
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
             if (user) {
@@ -59,13 +53,24 @@ export function AuthProvider({children}) {
             const goalsRef = collection(db, 'users', user.uid, 'goals');
             const goalsSnap = await getDocs(goalsRef);
 
-            const goals = goalsSnap.docs.map(goal => ({
-                id: goal.id,
-                ...goal.data()
+            const goals = await Promise.all(goalsSnap.docs.map(async (goal) => {
+
+                const reportsRef = collection(db, 'users', user.uid, 'goals', goal.id, 'reports');
+                const reportsSnap = await getDocs(reportsRef);
+
+                const reports = reportsSnap.docs.map(report => ({
+                    ...report.data()
+                }));
+
+                // This is each goal object returned to the array
+                return {
+                    id: goal.id,
+                    ...goal.data(),
+                    reports
+                }
             }));
             
             setUserGoals(goals);
-            
         } 
         catch(e) {
             console.log("Error fetching user data and goals: " + e.message);

@@ -3,12 +3,12 @@ import { useAuth } from '@/context/AuthContext';
 import React, { useEffect, useState } from 'react'
 import Loading from '@/components/Loading';
 import Login from '@/components/Login';
-import { ArrowLeft, BarChart, Briefcase, CalendarIcon, Dumbbell, Flag, FlagIcon, Heart, Palette, RepeatIcon, User, Wallet } from 'lucide-react';
+import { ArrowLeft, BarChart, Briefcase, CalendarIcon, Dumbbell, File, Flag, FlagIcon, Heart, Palette, RepeatIcon, User, Wallet } from 'lucide-react';
 import GoalNotFound from '@/components/GoalNotFound';
 import { Bar, CartesianGrid, ResponsiveContainer, XAxis, YAxis } from 'recharts';
 import GoalChartComponent from '@/components/GoalChartComponent';
 import Link from 'next/link';
-import { formatDate } from 'date-fns';
+import { format, formatDate } from 'date-fns';
 import { ref } from 'firebase/storage';
 import { deleteDoc, doc } from 'firebase/firestore';
 import { db } from '@/firebase';
@@ -22,9 +22,16 @@ const area_options = [
     { name: "Hobbies", color: "#E9C46A", icon: Palette }         // Yellow - Creativity and optimism
 ]
 
+const progress_bg_colors = [
+    '',
+    'bg-red-600',
+    'bg-yellow-500',
+    'bg-green-600',
+    'bg-blue-500'
+]
+
 export default function GoalInfoPage({ params }) {
 
-	const [username, setUsername] = useState("User");
     const [goalData, setGoalData] = useState({});
     const [notFound, setNotFound] = useState(true);
 
@@ -43,12 +50,6 @@ export default function GoalInfoPage({ params }) {
             }
         }
 	}, [userGoals])
-
-    useEffect(() => {
-		if (curUser && curUser.displayName) {
-            setUsername(curUser.displayName);
-        }
-	},[curUser])
 
     async function handleDeleteGoal() {
         const goalRef = doc(db, 'users', curUser.uid, 'goals', params.goalId);
@@ -69,12 +70,6 @@ export default function GoalInfoPage({ params }) {
     if (notFound) {
         return <GoalNotFound/>
     }
-
-    // Creates dummy data for showing 30 bars on the chart
-    const numDummyBars = goalData.total_reminders - goalData.reports.length;
-    const dummyData = new Array(numDummyBars).fill({progress_scale: 0})
-    const finalReportsData = [...goalData.reports, ...dummyData];
-
     const area_option = area_options.find(option => option.name == goalData.area);
 
     return (
@@ -115,9 +110,9 @@ export default function GoalInfoPage({ params }) {
                 <span><strong>{goalData.goal_name}</strong></span>
             </div>
             
-            <GoalChartComponent goal_info={goalData} reports_info={finalReportsData} only_chart={true}/>
+            <GoalChartComponent goal_info={goalData} only_chart={true}/>
             
-            <div className='flex flex-col text-xl gap-10 m-4'>
+            <div className='flex flex-col text-xl gap-10 m-2 border p-2 border-slate-400'>
 
                 <div className='flex flex-col'>
                     <h1><strong>Completion:</strong></h1>
@@ -135,8 +130,8 @@ export default function GoalInfoPage({ params }) {
                 </div>
 
 
-                <div className='flex flex-col gap-2 border border-slate-400 p-2 rounded-lg'>
-                    <h1><strong>Details</strong></h1>
+                <div className='flex flex-col gap-2 border-t border-slate-400 p-2'>
+                    <h1 className='mt-4'><strong>Details</strong></h1>
 
                     <div className='mx-2 flex flex-col gap-1'>
                         <span className='text-lg justify-between flex'><strong>Reminder Frequency: </strong>{goalData.reminder_freq}</span>
@@ -155,10 +150,37 @@ export default function GoalInfoPage({ params }) {
                             
                         </div>
                     </div>
-                    
                 </div>
             </div>
-            <button onClick={() => setShowModalDelete(true)} className='text-center items-center p-4 text-red-600 hover:text-white hover:bg-red-600 active:text-white active:bg-red-600  bg-red-50'>Delete Goal</button>
+
+            <div href='/goals' className='flex items-center gap-2 mb-2 mt-6 justify-center'>
+                <File></File>
+                <div className='text-center items-center '><strong>Progress Status Reports:</strong></div>
+            </div>
+
+            <div>
+                {
+                    goalData.reports.map((report, index) => (
+                        <div key={index} className='flex flex-col gap-4 border shadow-md border-slate-600 p-2 m-2 rounded-lg bg-slate-100'>
+                            <h1><strong>Report #{index}</strong></h1>
+
+                            <div className='mx-2 flex flex-col gap-4'>
+                                <span className='text-lg flex'>{format(report.date,'MMMM dd, yyyy')}</span>
+
+                                <div>
+                                    <div className={'w-' + report.progress_scale + '/4 h-4 ' + progress_bg_colors[report.progress_scale]}></div>
+                                    <div className={'px-2 text-lg justify-between flex'}>
+                                        <span>0</span><span>1</span><span>2</span><span>3</span><span>4</span>
+                                    </div>
+                                </div>
+                                <span className='text-lg justify-between flex flex-col'><strong>Observations:</strong> {report.observations || "..."}</span>
+                            </div>
+                        </div>
+                    ))
+                }
+            </div>
+
+            <button onClick={() => setShowModalDelete(true)} className='m-2 text-center items-center p-4 text-red-600 hover:text-white hover:bg-red-600 active:text-white active:bg-red-600  bg-red-50'>Delete Goal</button>
         </div>
       )
 }

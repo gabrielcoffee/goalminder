@@ -14,15 +14,13 @@ const area_options = [
     { name: "Hobbies", color: "#E9C46A", icon: Palette }         // Yellow - Creativity and optimism
 ]
 
-const DEFAULT_BARS = 30;
-
-export default function GoalChartComponent({ goal_info, reports_info, only_chart}) {
+export default function GoalChartComponent({ goal_info, only_chart}) {
 
     const option = area_options.find(area => area.name === goal_info.area);
 
-    const numDummyBars = goal_info.total_reminders - reports_info.length;
+    const numDummyBars = goal_info.reports ? goal_info.total_reminders - goal_info.reports.length : goal_info.total_reminders;
     const dummyData = new Array(numDummyBars).fill({progress_scale: 0})
-    const finalData = [...reports_info, ...dummyData];
+    const finalReportsData = goal_info.reports ? [...goal_info.reports, ...dummyData] : dummyData;
 
     const [isClient, setIsClient] = useState(false);
 
@@ -51,7 +49,7 @@ export default function GoalChartComponent({ goal_info, reports_info, only_chart
 
             <div className='w-full h-full mr-8' style={{borderColor: option.color, height: 125, pointerEvents: 'none'}}>
                 <ResponsiveContainer width="100%" height="100%">
-                    <BarChart id='1' data={finalData}>
+                    <BarChart id='1' data={finalReportsData}>
                         <XAxis dataKey="date" tick={false} />
                         <YAxis type='number' ticks={[0,1,2,3,4]} interval={0}/>
                         <CartesianGrid horizontal={true} vertical={false} strokeDasharray="3 3"/>
@@ -91,7 +89,7 @@ export default function GoalChartComponent({ goal_info, reports_info, only_chart
 
             <div className='w-full h-full mr-8' style={{borderColor: option.color, height: 125, pointerEvents: 'none'}}>
                 <ResponsiveContainer width="100%" height="100%">
-                    <BarChart id='1' data={finalData}>
+                    <BarChart id='1' data={finalReportsData}>
                         <XAxis dataKey="date" tick={false} />
                         <YAxis type='number' ticks={[0,1,2,3,4]} interval={0}/>
                         <CartesianGrid horizontal={true} vertical={false} strokeDasharray="3 3"/>

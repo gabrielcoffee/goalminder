@@ -28,7 +28,6 @@ const area_icons_default = [
 export default function GoalsPage() {
 
 	const [username, setUsername] = useState("User");
-	const [goals, setGoals] = useState([]);
 	const [areaIcons, setAreaIcons] = useState(area_icons_default);
 
 	const { curUser, userGoals, loading } = useAuth();
@@ -41,7 +40,6 @@ export default function GoalsPage() {
 
 	useEffect(() => {
 		if (userGoals) {
-			setGoals(userGoals);
 			const goal_areas = userGoals.map(goal => goal.area);
 
 			const newAreaIcons = area_icons_default.map(area => ({
@@ -94,8 +92,8 @@ export default function GoalsPage() {
 
 			<div className='w-full sm:w-4/6 gap-8 flex flex-col mb-8' >
 				{
-					goals.map((goal) => (
-						<GoalChartComponent key={goal.id} goal_info={goal} reports_info={goal.reports}/>
+					userGoals.map((goal) => (
+						<GoalChartComponent key={goal.id} goal_info={goal} />
 					))
 				}
 			</div>
