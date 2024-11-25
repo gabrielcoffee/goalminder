@@ -25,9 +25,10 @@ export default function SetGoalPage() {
     const [description, setDescription] = useState("");
     const [quantityPeriod, setQuantityPeriod] = useState(1);    // Not sent in the db (completiondate) 
     const [timePeriod, setTimePeriod] = useState('week');       // Not sent in the db (completiondate) 
-    const [completionDate, setCompletionDate] = useState("")
+    const [completionDate, setCompletionDate] = useState("");
     const [reminderFreq, setReminderFreq] = useState(null);
     const [totalReminders, setTotalReminders] = useState(0);
+    const [reminderDates, setReminderDates] = useState([]);
     const [timeOfReminder, setTimeOfReminder] = useState(null);
     const [motivationImg, setMotivationImg] = useState(null);   // Not sent in the db (only url in the function handle goal Creation)
     const [personalText, setPersonalText] = useState("");
@@ -57,8 +58,8 @@ export default function SetGoalPage() {
         },
         {
             comp: <Frequency/>,
-            data: { reminderFreq, completionDate },
-            setter: { setReminderFreq, setTotalReminders }
+            data: { reminderFreq, completionDate, reminderDates },
+            setter: { setReminderFreq, setTotalReminders, setReminderDates }
         },
         {
             comp: <TimeOfReminder/>,
@@ -102,6 +103,7 @@ export default function SetGoalPage() {
             description:        description,
             completion_date:    completionDate,
             reminder_freq:      reminderFreq,
+            reminder_dates:     reminderDates,
             time_of_reminder:   timeOfReminder,
             total_reminders:    totalReminders,
             motivation_img_url: imageUrl,
@@ -117,6 +119,8 @@ export default function SetGoalPage() {
         } catch (e) {
             console.log("ERROR ON SET GOAL: " + e.message);
         }
+
+        // Take user back to the My goals page
         window.location.href = '/goals';
     }
 

@@ -52,7 +52,7 @@ export default function Login({isSignUp}) {
 					displayName: username
 				})
 
-				// Save additional user info to Firestore
+				// Save additional user info to Firestore database
 				const userDocRef = doc(db, 'users', user.uid);
 				await setDoc(userDocRef, {
 					email: user.email,

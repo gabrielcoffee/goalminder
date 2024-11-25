@@ -2,10 +2,10 @@ import { AlarmClock, Clock12, Moon, Sunset } from 'lucide-react'
 import React, { useEffect } from 'react'
 
 const time_reminders = [
-    { name: "Morning", time: '6AM', icon: AlarmClock },
-    { name: "Noon", time: '12PM', icon: Clock12 },
-    { name: "Evening", time: '6PM', icon: Sunset },
-    { name: "Midnight", time: '12AM', icon: Moon },
+    { name: "Midnight", time: '12AM', icon: Moon,     real_time: '00' },
+    { name: "Morning", time: '6AM', icon: AlarmClock, real_time: '6' },
+    { name: "Noon", time: '12PM', icon: Clock12,      real_time: '12' },
+    { name: "Evening", time: '6PM', icon: Sunset,     real_time: '18' },
 ]
 
 export default function TimeOfReminder({data, setter, canProgressSetter }) {
@@ -26,8 +26,8 @@ export default function TimeOfReminder({data, setter, canProgressSetter }) {
             {
                 time_reminders.map((option, index) => (
 
-                    <button key={index} onClick={() => setter(option.name)} value={option.name}
-                    className={'flex flex-col justify-center items-center border-[1px] border-slate-400 rounded-md px-8 py-4 gap-4 ' +  (data === option.name && 'bg-slate-700 text-white')}
+                    <button key={index} onClick={() => setter(option.real_time)} value={option.name}
+                    className={'flex flex-col justify-center items-center border-[1px] border-slate-400 rounded-md px-8 py-4 gap-4 ' +  (data === option.real_time && 'bg-slate-700 text-white')}
                     >
                         <div style={{ borderColor: option.color }} className='bg-opacity-60 rounded-full p-4 bg-slate-200 text-slate-800'>
                             {<option.icon size={50}/>}

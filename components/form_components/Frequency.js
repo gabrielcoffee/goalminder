@@ -1,4 +1,6 @@
-import { differenceInDays, differenceInWeeks } from 'date-fns';
+'use client'
+
+import { add, differenceInDays, differenceInWeeks, format, isBefore, parseISO } from 'date-fns';
 import { Calendar, CalendarCheck, CalendarDays, CalendarRange, Clock, Sun } from 'lucide-react'
 import React, { useEffect } from 'react'
 
@@ -12,24 +14,61 @@ const freq_options = [
   ]
 
 export default function Frequency({ data, setter, canProgressSetter }) {
-
-    const getDaysDiff = () => {
-        let today = new Date();
-        let completion = data.completionDate;
-        return differenceInDays(completion, today);
-    }
-
     // TODO: Limit depending on the data from the completion date for max of 30 reminders each goal
+
+    function getDatesBetween(startDate, endDate, frequency) {
+        const result = [];
+
+        let freq_object;
+
+        switch (frequency) {
+            case 'Daily':
+                freq_object = { days: 1 }; break;
+            case 'Every 3 Days':
+                freq_object = { days: 3 }; break;
+            case 'Weekly':
+                freq_object = { weeks: 1 }; break;
+            case 'Monthly':
+                freq_object = { months: 1 }; break;
+            case 'Every 3 Months':
+                freq_object = { months: 3 }; break;
+            case 'Yearly':
+                freq_object = { years: 1 }; break;
+            default:
+                throw new Error('Invalid frequency');
+        }
+
+        let current = startDate;
+      
+        while (isBefore(current, endDate) || current.toISOString() === endDate.toISOString()) {
+            result.push(format(current, 'yyyy-MM-dd'));
+            current = add(current, freq_object);
+        }
+        
+        console.log(result);
+
+        return result;
+    }
 
     useEffect(() => {
         if (!data.reminderFreq) {
             canProgressSetter(false);
+            return
         } else {
             canProgressSetter(true);
         }
-        
-        // Setting total reminders
-        const diff = getDaysDiff();
+
+        let today = new Date();
+        let completion = data.completionDate;
+
+        const diff =  differenceInDays(completion, today);
+
+        // Set the reminder dates
+        const endDateObject = new Date(completion);
+        const datesBetween = getDatesBetween(today, endDateObject, data.reminderFreq);
+        setter.setReminderDates(datesBetween);
+
+        // Set the minimum total of reminders
         const minDaysOption = freq_options.find(option => option.name === data.reminderFreq);
         const minDays = minDaysOption ? minDaysOption.min_days : 1;
         setter.setTotalReminders(Math.floor(diff / minDays));
@@ -38,7 +77,9 @@ export default function Frequency({ data, setter, canProgressSetter }) {
 
     useEffect(() => {
         // Blocking frequencies that are more than 30 of less than 1 for a goal
-        const diff = getDaysDiff();
+        let today = new Date();
+        let completion = data.completionDate;
+        const diff =  differenceInDays(completion, today);
 
         freq_options.forEach(option => {
 
