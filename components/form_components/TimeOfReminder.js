@@ -2,7 +2,7 @@ import { AlarmClock, Clock12, Moon, Sunset } from 'lucide-react'
 import React, { useEffect } from 'react'
 
 const time_reminders = [
-    { name: "Midnight", time: '12AM', icon: Moon,     real_time: '00' },
+    { name: "Midnight", time: '12AM', icon: Moon,     real_time: '0' },
     { name: "Morning", time: '6AM', icon: AlarmClock, real_time: '6' },
     { name: "Noon", time: '12PM', icon: Clock12,      real_time: '12' },
     { name: "Evening", time: '6PM', icon: Sunset,     real_time: '18' },

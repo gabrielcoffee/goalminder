@@ -135,8 +135,9 @@ export default function GoalInfoPage({ params }) {
 
                     <div className='mx-2 flex flex-col gap-1'>
                         <span className='text-lg justify-between flex'><strong>Reminder Frequency: </strong>{goalData.reminder_freq}</span>
-                        <span className='text-lg justify-between flex'><strong>Time of Reminder:</strong> {goalData.time_of_reminder}</span>
+                        <span className='text-lg justify-between flex'><strong>Time of Reminder:</strong> {goalData.time_of_reminder + ":00"}</span>
                         <span className='text-lg justify-between flex'><strong>AI Generated Text:</strong> {goalData.have_ai_text ? 'Yes' : 'No'}</span>
+                        <span className='text-lg justify-between flex'><strong>Text mood on reminder:</strong> {goalData.text_mood}</span>
                         <div className='text-lg justify-between flex items-center'>
                             <strong>Motivational Image:</strong>
                             {

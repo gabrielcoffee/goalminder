@@ -2,6 +2,7 @@
 import AreaSelection from '@/components/form_components/AreaSelection';
 import CompletionDate from '@/components/form_components/CompletionDate';
 import Frequency from '@/components/form_components/Frequency';
+import TextMood from '@/components/form_components/TextMood';
 import Motivation from '@/components/form_components/Motivation';
 import NameDesc from '@/components/form_components/NameDesc';
 import Start from '@/components/form_components/Start';
@@ -28,6 +29,7 @@ export default function SetGoalPage() {
     const [completionDate, setCompletionDate] = useState("");
     const [reminderFreq, setReminderFreq] = useState(null);
     const [totalReminders, setTotalReminders] = useState(0);
+    const [textMood, setTextMood] = useState(null);
     const [reminderDates, setReminderDates] = useState([]);
     const [timeOfReminder, setTimeOfReminder] = useState(null);
     const [motivationImg, setMotivationImg] = useState(null);   // Not sent in the db (only url in the function handle goal Creation)
@@ -60,6 +62,11 @@ export default function SetGoalPage() {
             comp: <Frequency/>,
             data: { reminderFreq, completionDate, reminderDates },
             setter: { setReminderFreq, setTotalReminders, setReminderDates }
+        },
+        {
+            comp: <TextMood/>,
+            data: textMood,
+            setter: setTextMood
         },
         {
             comp: <TimeOfReminder/>,
@@ -105,6 +112,7 @@ export default function SetGoalPage() {
             reminder_freq:      reminderFreq,
             reminder_dates:     reminderDates,
             time_of_reminder:   timeOfReminder,
+            text_mood:          textMood,
             total_reminders:    totalReminders,
             motivation_img_url: imageUrl,
             personal_text:      personalText,

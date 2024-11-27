@@ -64,7 +64,7 @@ export default function GoalsPage() {
 			<h1 className='text-4xl font-bold text-center px-4'>{username}'s goals</h1>
 			<div className='flex flex-col items-center gap-2'>
 				<h2 className='text-xl'>Areas include:</h2>
-				<div className='flex gap-2'>
+				<div className='flex gap-2 m-2'>
 					{
 						areaIcons.map((area, index) => (
 							
