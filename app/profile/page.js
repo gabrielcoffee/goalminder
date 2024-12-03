@@ -69,14 +69,14 @@ export default function ProfilePage() {
 			
 		</div>
 		:
-		<div className='flex flex-col justify-center inset-0 fixed'>
-			<div className='flex flex-col gap-2 border border-slate-400 p-4 rounded-lg m-4'>
+		<div className='flex flex-col justify-center inset-0 fixed items-center p-4'>
+			<div className='flex flex-col gap-2 border border-slate-400 p-4 rounded-lg'>
 				<h1 className='text-center text-xl'><strong>Profile Information</strong></h1>
 
 				<div className='mx-2 flex flex-col gap-4 my-4'>
-					<span className='text-lg justify-between flex'><strong>Name:</strong> {username}</span>
-					<span className='text-lg justify-between flex'><strong>Email:</strong> {email}</span>
-					<span className='text-lg justify-between flex'><strong>Password:</strong> <button>********</button></span>
+					<span className='text-lg justify-between flex gap-20'><strong>Name:</strong> {username}</span>
+					<span className='text-lg justify-between flex gap-20'><strong>Email:</strong> {email}</span>
+					<span className='text-lg justify-between flex gap-20'><strong>Password:</strong> <button>********</button></span>
 				</div>
 
 				<div className='flex flex-col justify-center'>

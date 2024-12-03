@@ -14,12 +14,12 @@ const area_options = [
     { name: "Hobbies", color: "#E9C46A", icon: Palette }         // Yellow - Creativity and optimism
 ]
 
-export default function GoalChartComponent({ goal_info, only_chart}) {
+export default function GoalChartComponent({ goal_info, only_chart }) {
 
     const option = area_options.find(area => area.name === goal_info.area);
 
     const numDummyBars = goal_info.reports ? goal_info.total_reminders - goal_info.reports.length : goal_info.total_reminders;
-    const dummyData = new Array(numDummyBars).fill({progress_scale: 0})
+    const dummyData = new Array(numDummyBars).fill({progress: 0})
     const finalReportsData = goal_info.reports ? [...goal_info.reports, ...dummyData] : dummyData;
 
     const [isClient, setIsClient] = useState(false);
@@ -53,7 +53,7 @@ export default function GoalChartComponent({ goal_info, only_chart}) {
                         <XAxis dataKey="date" tick={false} />
                         <YAxis type='number' ticks={[0,1,2,3,4]} interval={0}/>
                         <CartesianGrid horizontal={true} vertical={false} strokeDasharray="3 3"/>
-                        <Bar dataKey="progress_scale" fill={option.color}/>
+                        <Bar dataKey="progress" fill={option.color}/>
                     </BarChart>
                 </ResponsiveContainer>
             </div>
@@ -93,7 +93,7 @@ export default function GoalChartComponent({ goal_info, only_chart}) {
                         <XAxis dataKey="date" tick={false} />
                         <YAxis type='number' ticks={[0,1,2,3,4]} interval={0}/>
                         <CartesianGrid horizontal={true} vertical={false} strokeDasharray="3 3"/>
-                        <Bar dataKey="progress_scale" fill={option.color}/>
+                        <Bar dataKey="progress" fill={option.color}/>
                     </BarChart>
                 </ResponsiveContainer>
             </div>

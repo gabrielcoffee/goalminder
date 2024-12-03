@@ -7,6 +7,7 @@ import { ArrowLeft, BarChart, Briefcase, CalendarIcon, Dumbbell, File, Flag, Fla
 import GoalNotFound from '@/components/GoalNotFound';
 import { Bar, CartesianGrid, ResponsiveContainer, XAxis, YAxis } from 'recharts';
 import GoalChartComponent from '@/components/GoalChartComponent';
+import ProgressReport from '@/components/ProgressReport';
 import Link from 'next/link';
 import { format, formatDate } from 'date-fns';
 import { ref } from 'firebase/storage';
@@ -20,14 +21,6 @@ const area_options = [
     { name: "Relationships", color: "#8E7CC3", icon: Heart },    // Purple - Connection and empathy
     { name: "Finance", color: "#2A9D8F", icon: Wallet },         // Green  - Wealth and balance
     { name: "Hobbies", color: "#E9C46A", icon: Palette }         // Yellow - Creativity and optimism
-]
-
-const progress_bg_colors = [
-    '',
-    'bg-red-600',
-    'bg-yellow-500',
-    'bg-green-600',
-    'bg-blue-500'
 ]
 
 export default function GoalInfoPage({ params }) {
@@ -49,6 +42,7 @@ export default function GoalInfoPage({ params }) {
                 setNotFound(true);
             }
         }
+
 	}, [userGoals])
 
     async function handleDeleteGoal() {
@@ -160,23 +154,11 @@ export default function GoalInfoPage({ params }) {
             </div>
 
             <div>
-                {
+                { 
+                    /* PRINT EVERY PROGRESS REPORT */ 
+                    
                     goalData.reports.map((report, index) => (
-                        <div key={index} className='flex flex-col gap-4 border shadow-md border-slate-600 p-2 m-2 rounded-lg bg-slate-100'>
-                            <h1><strong>Report #{index}</strong></h1>
-
-                            <div className='mx-2 flex flex-col gap-4'>
-                                <span className='text-lg flex'>{format(report.date,'MMMM dd, yyyy')}</span>
-
-                                <div>
-                                    <div className={'w-' + report.progress_scale + '/4 h-4 ' + progress_bg_colors[report.progress_scale]}></div>
-                                    <div className={'px-2 text-lg justify-between flex'}>
-                                        <span>0</span><span>1</span><span>2</span><span>3</span><span>4</span>
-                                    </div>
-                                </div>
-                                <span className='text-lg justify-between flex flex-col'><strong>Observations:</strong> {report.observations || "..."}</span>
-                            </div>
-                        </div>
+                        <ProgressReport key={index} report={report} index={index}/>
                     ))
                 }
             </div>

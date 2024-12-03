@@ -8,14 +8,6 @@ import React, { useEffect, useState } from 'react'
 import Loading from '@/components/Loading';
 import Login from '@/components/Login';
 
-const report_example = {
-	id: 1,
-	goalId: 1,
-	date: "10-15-2024",
-	progressScale: 3,
-	observations: "Completed 5-mile runs twice this week. Need to work on pacing for longer distances."
-}
-
 const area_icons_default = [
 	{ name: "Fitness", color: "#FF6B6B", icon: Dumbbell, showIcon: false },      
 	{ name: "Professional", color: "#4E89AE", icon: Briefcase, showIcon: false },
