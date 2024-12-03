@@ -10,7 +10,6 @@ export default function CallToAction() {
     if (curUser) {
         return (
             <div className="flex flex-col sm:flex-row gap-8 ">
-                <HeroButton href='/set-goal' border white>Set a new Goal</HeroButton>
                 <HeroButton href='/goals'>Check my Goals</HeroButton>
             </div>
         )

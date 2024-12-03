@@ -53,7 +53,7 @@ export default function GoalsPage() {
     return (
         <div className='flex flex-col items-center mt-20 gap-10 w-full'>
 
-			<h1 className='text-4xl font-bold text-center px-4'>{username}'s goals</h1>
+			<h1 className='text-4xl font-bold text-center px-4'>{username}&apos;s goals</h1>
 			<div className='flex flex-col items-center gap-2'>
 				<h2 className='text-xl'>Areas include:</h2>
 				<div className='flex gap-2 m-2'>

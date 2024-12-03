@@ -61,9 +61,9 @@ export default function Start({ canProgressSetter }) {
             <h1 className={'text-3xl font-normal text-center px-4 mb-20'}>
                 {
                     isFirstGoal ?
-                    <span>Alright <strong>{username}</strong>, let's set your first goal!</span>
+                    <span>Alright <strong>{username}</strong>, let&apos;s set your first goal!</span>
                     :
-                    <span>Hey <strong>{username}</strong>, let's create a new goal!</span>
+                    <span>Hey <strong>{username}</strong>, let&apos;s create a new goal!</span>
                 }       
             </h1>
         </div>

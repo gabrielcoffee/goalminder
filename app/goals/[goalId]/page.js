@@ -13,6 +13,7 @@ import { format, formatDate } from 'date-fns';
 import { ref } from 'firebase/storage';
 import { deleteDoc, doc } from 'firebase/firestore';
 import { db } from '@/firebase';
+import Image from 'next/image';
 
 const area_options = [
     { name: "Fitness", color: "#FF6B6B", icon: Dumbbell },       // Red    - Energy and strength
@@ -137,7 +138,7 @@ export default function GoalInfoPage({ params }) {
                             {
                                 goalData.motivation_img_url ?
                                 <a href={goalData.motivation_img_url} target='_blank'>
-                                <img width={250} src={goalData.motivation_img_url}></img>
+                                <Image alt='motivational image' width={250} src={goalData.motivation_img_url}></Image>
                                 </a>
                                 : 
                                 '...'
