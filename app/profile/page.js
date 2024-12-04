@@ -2,7 +2,8 @@
 import Loading from '@/components/Loading';
 import Login from '@/components/Login';
 import { useAuth } from '@/context/AuthContext';
-import { db } from '@/firebase';
+import { auth, db } from '@/firebase';
+import { deleteUser } from 'firebase/auth';
 import { deleteDoc, doc } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react'
 
@@ -27,16 +28,22 @@ export default function ProfilePage() {
 	}, [curUser])
 
 	async function handleDeleteAccount() {
+
 		const goalRef = doc(db, 'users', curUser.uid);
+
         try {
             await deleteDoc(goalRef);
+			console.log('User document deleted');
+
+			await deleteUser(auth.currentUser);
             console.log('Account deleted');
+
+			logout();
+        	window.location.href = '/';
         }
         catch (e) {
             console.log(e.message);
         }
-		logout();
-        window.location.href = '/';
 	}
 
 	if (loading) {

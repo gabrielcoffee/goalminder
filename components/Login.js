@@ -15,6 +15,7 @@ export default function Login({isSignUp}) {
 	const [username, setUsername] = useState('');
 	const [passwordsMatch, setPasswordsMatch] = useState(true);
 	const [showPassword, setShowPassword] = useState(false);
+	const [wrongCredentials, setWrongCredentials] = useState(false);
 
 	const [authenticating, setAuthenticating] = useState(false);
 	const { signup, login } = useAuth();
@@ -61,7 +62,8 @@ export default function Login({isSignUp}) {
             }
 
 		} catch (e) {
-			console.log(e.message);
+			console.log('error', e.message);
+			setWrongCredentials(true);
 
 		} finally {
 			setAuthenticating(false);
@@ -87,9 +89,16 @@ export default function Login({isSignUp}) {
 				<h2 className={"text-4xl font-semibold text-gray-900 mb-2"}>
 				{isLogin ? 'Log in' : 'Sign Up'}
 				</h2>
-				<p className="text-sm text-gray-500 mb-6">
-				{isLogin ? "Only a few steps and you're in" : 'Create a new account to set incredible goals'}
-				</p>
+
+				{
+				wrongCredentials ? 
+					<p className="text-sm text-red-600 mb-6">Wrong credentials, please try again.</p>
+					:
+					<p className="text-sm text-gray-500 mb-6">
+						{isLogin ? "Only a few steps and you're in" : 'Create a new account to set incredible goals'}
+					</p>
+				}
+				
 			</div>
 			
 			<div className="flex flex-col gap-2">

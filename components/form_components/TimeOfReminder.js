@@ -21,6 +21,7 @@ export default function TimeOfReminder({data, setter, canProgressSetter }) {
     return (
         <div className="flex flex-col items-center h-full relative">
             <h1 className='text-2xl text-center font-bold'>When would you like to receive the reminders?</h1>
+            <span className='text-slate-500 text-center'>(In New York Time)</span>
             
             <div className='grid grid-cols-2 grid-rows-2 mt-14 mx-4 gap-4 text-xl'>
             {

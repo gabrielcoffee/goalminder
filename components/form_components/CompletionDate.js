@@ -22,10 +22,10 @@ export default function CompletionDate( { data, setter, canProgressSetter } ) {
             completion = addYears(today, data.quantityPeriod);
         }
 
-        const formattedCompletionDate = format(completion, 'MM-dd-yyyy');
+        const formattedCompletionDate = format(completion, 'yyyy-MM-dd');
         setter.setCompletionDate(formattedCompletionDate);
+        
         setFormatedDate(format(completion, 'MMMM dd, yyyy'))
-
 
         if (differenceInWeeks(completion, today) > 1565) {
             canProgressSetter(false);

@@ -32,11 +32,6 @@ export default function GoalChartComponent({ goal_info, only_chart }) {
         return null
     }
 
-    const formatDate = (dateString) => {
-        const date = parse(dateString, 'MM-dd-yyyy', new Date());
-        return format(date, 'MMMM dd, yyyy');
-    };
-
     return (
         only_chart ?
 
@@ -81,7 +76,7 @@ export default function GoalChartComponent({ goal_info, only_chart }) {
                     <div className='rounded-full p-2'>
                         <Flag size={30} style={{color: option.color }}/>
                     </div>
-                    <span className='text-sm'>{formatDate(goal_info.completion_date)}</span>
+                    <span className='text-sm'>{format(goal_info.completion_date, 'MMMM dd, yyyy')}</span>
                 </div>
             </div>
             

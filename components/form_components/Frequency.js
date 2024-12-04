@@ -5,12 +5,12 @@ import { Calendar, CalendarCheck, CalendarDays, CalendarRange, Clock, Sun } from
 import React, { useEffect } from 'react'
 
 const freq_options = [
-    { name: "Daily", icon: Sun, disabled: false, min_days: 1, max_days: 31 },
-    { name: "Every 3 Days", icon: Clock, disabled: false, min_days: 3, max_days: 91 },
-    { name: "Weekly", icon: Calendar , disabled: false, min_days: 7, max_days: 210 },
-    { name: "Monthly", icon: CalendarDays , disabled: false, min_days: 31, max_days: 910 },
-    { name: "Every 3 Months", icon: CalendarRange, disabled: false, min_days: 93, max_days: 2737  },
-    { name: "Yearly", icon: CalendarCheck , disabled: false, min_days: 365, max_days: 10956 }
+    { name: "Daily", icon: Sun, disabled: true, min_days: 1, max_days: 31 },
+    { name: "Every 3 Days", icon: Clock, disabled: true, min_days: 3, max_days: 91 },
+    { name: "Weekly", icon: Calendar , disabled: true, min_days: 7, max_days: 210 },
+    { name: "Monthly", icon: CalendarDays , disabled: true, min_days: 31, max_days: 910 },
+    { name: "Every 3 Months", icon: CalendarRange, disabled: true, min_days: 93, max_days: 2737  },
+    { name: "Yearly", icon: CalendarCheck , disabled: true, min_days: 365, max_days: 10956 }
   ]
 
 export default function Frequency({ data, setter, canProgressSetter }) {
@@ -51,7 +51,7 @@ export default function Frequency({ data, setter, canProgressSetter }) {
     }
 
     useEffect(() => {
-        if (!data.reminderFreq) {
+        if (!data.reminderFreq || !data.completionDate) {
             canProgressSetter(false);
             return
         } else {
@@ -60,11 +60,14 @@ export default function Frequency({ data, setter, canProgressSetter }) {
 
         let today = new Date();
         let completion = data.completionDate;
-
         const diff =  differenceInDays(completion, today);
 
-        // Set the reminder dates
+        console.log('diff', diff);
+        console.log('completion', completion);
+
         const endDateObject = new Date(completion);
+
+        console.log(endDateObject);
         const datesBetween = getDatesBetween(today, endDateObject, data.reminderFreq);
         setter.setReminderDates(datesBetween);
 
@@ -82,10 +85,12 @@ export default function Frequency({ data, setter, canProgressSetter }) {
         const diff =  differenceInDays(completion, today);
 
         freq_options.forEach(option => {
-
-            option.disabled = false;
-            if (diff < option.min_days || diff > option.max_days) {
-                option.disabled = true;
+            
+            option.disabled = true;
+            if (diff > option.min_days && diff < option.max_days) {
+                option.disabled = false;
+            }
+            else {
                 if (data.reminderFreq === option.name) {
                     setter.setReminderFreq(null);
                 }
