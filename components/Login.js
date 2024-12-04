@@ -62,7 +62,7 @@ export default function Login({isSignUp}) {
             }
 
 		} catch (e) {
-			console.log('error', e.message);
+			console.log(e.message);
 			setWrongCredentials(true);
 
 		} finally {

@@ -59,7 +59,7 @@ export default function Motivation({data, setter}) {
                 <label className='flex flex-col'>
                     Personal Text:
                     <textarea name='personal_text' rows="5" className={'p-2 text-base border-slate-800 border rounded-md'} placeholder="Write your personal text here..." onChange={(e) => setter.setPersonalText(e.target.value)}/>
-                    <p className='text-slate-500 text-sm'>You will receive this text on your e-mail reminders.</p>
+                    {/*<p className='text-slate-500 text-sm'>You will receive this text on your e-mail reminders.</p>*/}
                 </label>
             </div>
         </div>

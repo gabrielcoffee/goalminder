@@ -1,4 +1,10 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
 
-export default nextConfig;
+export default {
+    reactStrictMode: true,
+    images: {
+      domains: [
+        'firebasestorage.googleapis.com',
+      ],
+    },
+  }

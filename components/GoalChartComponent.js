@@ -18,7 +18,12 @@ export default function GoalChartComponent({ goal_info, only_chart }) {
 
     const option = area_options.find(area => area.name === goal_info.area);
 
-    const numDummyBars = goal_info.reports ? goal_info.total_reminders - goal_info.reports.length : goal_info.total_reminders;
+    let numDummyBars = goal_info.reports ? goal_info.total_reminders - goal_info.reports.length : goal_info.total_reminders;
+
+    if (numDummyBars < 0) {
+        numDummyBars = 0;
+    }
+
     const dummyData = new Array(numDummyBars).fill({progress: 0})
     const finalReportsData = goal_info.reports ? [...goal_info.reports, ...dummyData] : dummyData;
 

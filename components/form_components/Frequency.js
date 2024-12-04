@@ -44,8 +44,6 @@ export default function Frequency({ data, setter, canProgressSetter }) {
             result.push(format(current, 'yyyy-MM-dd'));
             current = add(current, freq_object);
         }
-        
-        console.log(result);
 
         return result;
     }
@@ -62,13 +60,9 @@ export default function Frequency({ data, setter, canProgressSetter }) {
         let completion = data.completionDate;
         const diff =  differenceInDays(completion, today);
 
-        console.log('diff', diff);
-        console.log('completion', completion);
-
         const endDateObject = new Date(completion);
-
-        console.log(endDateObject);
         const datesBetween = getDatesBetween(today, endDateObject, data.reminderFreq);
+        
         setter.setReminderDates(datesBetween);
 
         // Set the minimum total of reminders

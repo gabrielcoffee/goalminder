@@ -133,12 +133,12 @@ export default function GoalInfoPage({ params }) {
                         <span className='text-lg justify-between flex'><strong>Time of Reminder:</strong> {goalData.time_of_reminder + ":00"}</span>
                         <span className='text-lg justify-between flex'><strong>AI Generated Text:</strong> {goalData.have_ai_text ? 'Yes' : 'No'}</span>
                         <span className='text-lg justify-between flex'><strong>Text mood on reminder:</strong> {goalData.text_mood}</span>
-                        <div className='text-lg justify-between flex items-center'>
+                        <div className='text-lg justify-between flex flex-col gap-2 items-center'>
                             <strong>Motivational Image:</strong>
                             {
                                 goalData.motivation_img_url ?
                                 <a href={goalData.motivation_img_url} target='_blank'>
-                                <Image alt='motivational image' width={250} src={goalData.motivation_img_url}></Image>
+                                <Image alt='motivational image' width={10000} height={0} style={{width:'auto',height:'auto'}} src={goalData.motivation_img_url}></Image>
                                 </a>
                                 : 
                                 '...'

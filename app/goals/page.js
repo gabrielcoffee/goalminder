@@ -40,7 +40,6 @@ export default function GoalsPage() {
 			}))
 			setAreaIcons(newAreaIcons);
 		}
-		console.log(userGoals);
 	}, [userGoals])
 
 	if (loading) {
