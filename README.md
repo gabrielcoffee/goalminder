@@ -1,4 +1,10 @@
 # goalminder
-A goal reminder web app, users set goals, get reminders and check how much progress they've been making, keeping them on track of their goals.
+A goal reminder web app. Set new goals, receive email reminders, and track your progress!
 
-This project is built with React for dynamic UI components, Next.js for optimized performance and SEO, Figma for interface design, and Tailwind CSS for styling.
+Access the web-app: [goalminderapp.online](https://goalminderapp.online/)
+
+This project is built with:
+- React for dynamic UI components;
+- Next.js for optimized performance and SEO;
+- Figma for interface design;
+- Tailwind CSS for styling.
