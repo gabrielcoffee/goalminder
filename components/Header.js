@@ -75,7 +75,7 @@ export default function Header() {
                         </ul>
                     :
                         <ul className={"flex flex-col items-center text-lg text-center"}> 
-                            <li className='active:bg-slate-800 active:text-white w-full p-4'><Link href={"/set-goal"} onClick={toggleMenu}>Sign in</Link></li>
+                            <li className='active:bg-slate-800 active:text-white w-full p-4'><Link href={"/set-goal"} onClick={toggleMenu}>Sign up</Link></li>
                             <li className='active:bg-slate-800 active:text-white w-full p-4'><Link href={"/goals"} onClick={toggleMenu}>Log in</Link></li>
                         </ul>
                 }      
