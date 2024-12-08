@@ -23,7 +23,7 @@ export default function ProgressReport({ report, index }) {
 
     return (
         <div key={index} className='flex flex-col gap-4 border shadow-md border-slate-600 p-2 m-2 rounded-lg bg-slate-100'>
-            <h1><strong className='text-lg'>Report #{index+1}</strong><br></br>{format(report.date,'MMMM dd, yyyy')}</h1>
+            <h1><strong className='text-lg'>Report #{index+1}</strong><br></br>{report.date}</h1>
 
             <span>{report.progress == 0 && 'No progress...'}</span>
 
