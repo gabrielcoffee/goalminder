@@ -3,6 +3,7 @@ import React from 'react'
 import GoalChartComponent from './GoalChartComponent';
 import { useAuth } from '@/context/AuthContext';
 
+// Demo data
   const goalsDemo = [
 	{
 	  id: "demo/fitness",
