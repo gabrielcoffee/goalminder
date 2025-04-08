@@ -25,18 +25,18 @@ As someone with a lot of goals, whether professional, personal, or otherwise, I 
 
 This project is mainly for personal and portfolio use, but feel free to fork it or open a pull request if you find something you'd like to improve. But keep in mind if you run the project locally, you'll need to create your own Firebase project.
 
-#### 1. Clone the repository
+### 1. Clone the repository
 ```bash
 git clone https://github.com/gabrielcoffee/goalminder.git
 cd goalminder
 ```
 
-#### 2. Install dependencies
+### 2. Install dependencies
 ```bash
 npm install
 ```
 
-#### 3. Set up Firebase
+### 3. Set up Firebase
 1. Create a new project at console.firebase.google.com, then enable:
 2. Authentication (Email/Password or whichever provider you prefer)
 3. Firestore Database
@@ -52,10 +52,13 @@ NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
 NEXT_PUBLIC_FIREBASE_APP_ID=your_app_id
 ```
 
-#### 4. Run the project
+### 4. Run the project
 ```bash
 npm run dev
 ```
+
+## What's next?
+Now that I'm returning to this project after a few months, I'll spend some time revisiting the README and refreshing my memory on the overall structure. After that, I plan to start working on the features I haven't implemented back then, including <strong>AI-generated message and a time zone based email scheduling system</strong>.
 
 ## What did I learn?
 I ended up learning a lot of valuable technical skills through this project:
@@ -69,7 +72,6 @@ And just as importantly, I developed a few soft skills along the way:
 - Effort: Debugging and building the system took way more time than I expected when I first sketched it out.
 - Patience: Probably the most I’ve ever had to practice on a project—countless small things broke, but it was all worth it in the end.
 - Searching: Having never used React or Firebase before, I spent a lot of time reading docs, forums, and examples to figure things out.
-
 
 ## Preview of some pages:
 ### Home page (not logged in)
