@@ -84,3 +84,5 @@ And just as importantly, I developed a few soft skills along the way:
 ### Goal Page (bottom)
 <img width="800" alt="goal progress status information" src="https://github.com/user-attachments/assets/a9e60d5f-d577-4642-b7cf-feb1b4d2f323" />
 
+## License
+This project is licensed under the MIT License.​
