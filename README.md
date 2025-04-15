@@ -58,7 +58,7 @@ npm run dev
 ```
 
 ## What's next?
-Now that I'm returning to this project after a few months, I'll spend some time revisiting the README and refreshing my memory on the overall structure. After that, I plan to start working on the features I haven't implemented back then, including <strong>AI-generated message and a time zone based email scheduling system</strong>.
+Now that I'm returning to this project after a few months, I'll spend some time revisiting the README and refreshing my memory on the overall structure. After that, I plan to start working on the features I haven't implemented back then, including <strong>AI-generated message and a time zone based email scheduling system</strong>. Also, if I implement more of these features, maybe a subscription plan.
 
 ## What did I learn?
 I ended up learning a lot of valuable technical skills through this project:
