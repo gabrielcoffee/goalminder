@@ -1,4 +1,6 @@
 # Goalminder
+<img width="660" alt="goalminder logo" src="https://github.com/user-attachments/assets/0d000fc4-47e4-4a3c-a7f4-a0d2bfdba227" />
+
 A goal reminder web app. Set new goals, receive email reminders, and track your progress! <br>
 [goalminderapp.online](https://goalminderapp.online)
 
