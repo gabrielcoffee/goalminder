@@ -48,8 +48,8 @@ const goal_data =
 		{ progress: 4 },
 		{ progress: 4 }
 	  ],
-	  text_mood: "Casual",
-	  time_of_reminder: "3",
+	  text_mood: "Serious",
+	  time_of_reminder: "12",
 	  total_reminders: 15
 	}
   

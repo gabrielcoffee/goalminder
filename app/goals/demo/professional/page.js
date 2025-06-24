@@ -35,8 +35,8 @@ const goal_data =
 		{ progress: 4 },
 		{ progress: 2 },
 	  ],
-	  text_mood: "Professional",
-	  time_of_reminder: "9",
+	  text_mood: "Rude",
+	  time_of_reminder: "18",
 	  total_reminders: 10
 	}
 
