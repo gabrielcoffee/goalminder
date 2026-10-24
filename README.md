@@ -1,92 +1,58 @@
 # Goalminder
-<img width="660" alt="goalminder logo" src="https://github.com/user-attachments/assets/0d000fc4-47e4-4a3c-a7f4-a0d2bfdba227" />
 
-A goal reminder web app. Set new goals, receive email reminders, and track your progress! <br>
-[goalminderapp.online](https://goalminderapp.online)
+<img width="660" alt="Goalminder logo" src="https://github.com/user-attachments/assets/0d000fc4-47e4-4a3c-a7f4-a0d2bfdba227" />
 
-## About
-As someone with a lot of goals, whether professional, personal, or otherwise, I sometimes find it challenging to keep track of everything. In today's world full of distractions, it's never been so easy to lose sight of what really matters. That's why I created Goalminder, to get a few emails from time to time reminding me of my plans and also helping me keep track of the progress made. To focus on the signal, not the noise.
+**My first product: a web app that keeps your goals in front of you.** You set a goal, pick an area and a reminder frequency, and report progress each time you check in. Built October to December 2024, before I had used React or Firebase.
 
-### Features
-- Set goals in different areas like Finance, Hobbies, Fitness and others.
-- Adjust the frequency of the reminders, the tone of the message etc.
-- Receive Email reminders of these goals
-- Each reminder you can report the progress you made.
-- Analyse the reports from each goal with charts.
+**Status:** offline. The site ran at goalminderapp.online until mid-2025. The code still runs locally against your own Firebase project (see below).
 
-### TechStack
-- [Next.js](https://nextjs.org/) – framework
-- [TypeScript](https://www.typescriptlang.org/) – language
-- [Tailwind](https://tailwindcss.com/) – CSS
-- [Firebase](https://firebase.google.com/) – auth and document database
-- [Resend](https://resend.com/) – emails
-- [Netlify](https://netlify.com/) – deployments
-- [Figma](https://www.figma.com/) - ui/ux design
+## What it does
 
-## Contributing
+- **Goals by area.** Finance, fitness, hobbies, professional and more, each with a name, description, motivation, target date and reminder frequency.
+- **Progress reports.** Every check-in records how it went and how you felt about it.
+- **Charts.** Each goal's reports are plotted over time with Recharts.
+- **Demo goals.** Three sample goals you can browse without an account.
 
-This project is mainly for personal and portfolio use, but feel free to fork it or open a pull request if you find something you'd like to improve. But keep in mind if you run the project locally, you'll need to create your own Firebase project.
+The scheduled reminder emails were designed as the core of the product but never shipped. The frequency and time-of-day settings are stored and nothing reads them yet.
 
-### 1. Clone the repository
-```bash
-git clone https://github.com/gabrielcoffee/goalminder.git
-cd goalminder
-```
+## Stack
 
-### 2. Install dependencies
+| | |
+|---|---|
+| App | Next.js 14 (App Router), React 18, JavaScript |
+| Styling | Tailwind CSS, Lucide icons |
+| Data | Firebase Auth and Firestore (`users/{uid}/goals/{goalId}/reports`) |
+| Charts | Recharts |
+| Design | Figma |
+
+## Run locally
+
+Create a Firebase project with Email/Password authentication and Firestore, then copy its web config into `.env.local` (see `.env.example`):
+
 ```bash
 npm install
+npm run dev     # http://localhost:3000
 ```
 
-### 3. Set up Firebase
-1. Create a new project at console.firebase.google.com, then enable:
-2. Authentication (Email/Password or whichever provider you prefer)
-3. Firestore Database
-4. Storage (if your app uses it)
+## What I learned
 
-Get your Firebase config object from Project Settings > General > Web App config, then create a .env.local file at the root of your project with the following variables:
-```bash
-NEXT_PUBLIC_FIREBASE_API_KEY=your_api_key
-NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
-NEXT_PUBLIC_FIREBASE_PROJECT_ID=your_project_id
-NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your_project.appspot.com
-NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
-NEXT_PUBLIC_FIREBASE_APP_ID=your_app_id
-```
+This was my first time with React, Next.js, Firebase and Tailwind, and the first time I designed screens in Figma before writing code. Most of the time went into debugging things that broke in small ways. The main lesson was that shipping a product is mostly the unglamorous part: forms, auth states, loading states and edge cases.
 
-### 4. Run the project
-```bash
-npm run dev
-```
+## Screens
 
-## What's next?
-Now that I'm returning to this project after a few months, I'll spend some time revisiting the README and refreshing my memory on the overall structure. After that, I plan to start working on the features I haven't implemented back then, including <strong>AI-generated message and a time zone based email scheduling system</strong>. Also, if I implement more of these features, maybe a subscription plan.
+**Home**
 
-## What did I learn?
-I ended up learning a lot of valuable technical skills through this project:
-- React: I built dynamic, reusable UI components, making the interface more interactive and responsive.
-- Next.js: I explored server-side rendering and static site generation, improving both performance and SEO.
-- Firebase: I gained hands-on experience with document databases, authentication, and image storage, learning a lot about cloud-based backend integration.
-- Tailwind CSS: I learned how to efficiently style and structure pages using utility-first CSS.
-- Figma: I improved my design workflow by creating intuitive interfaces and prototypes.
+<img width="800" alt="Goalminder home page" src="https://github.com/user-attachments/assets/449277dc-25c3-428b-b133-1c7e741f06ab" />
 
-And just as importantly, I developed a few soft skills along the way:
-- Effort: Debugging and building the system took way more time than I expected when I first sketched it out.
-- Patience: Probably the most I’ve ever had to practice on a project—countless small things broke, but it was all worth it in the end.
-- Searching: Having never used React or Firebase before, I spent a lot of time reading docs, forums, and examples to figure things out.
+**Your goals**
 
-## Preview of some pages:
-### Home page (not logged in)
-<img width="800" alt="goalminder home page" src="https://github.com/user-attachments/assets/449277dc-25c3-428b-b133-1c7e741f06ab" />
+<img width="800" alt="Goals list" src="https://github.com/user-attachments/assets/c795697e-a945-4847-baa2-8fa2439628aa" />
 
-### User's goals
-<img width="800" alt="user goals" src="https://github.com/user-attachments/assets/c795697e-a945-4847-baa2-8fa2439628aa" />
+**A goal and its progress**
 
-### Goal Page (top)
-<img width="800" alt="goal information" src="https://github.com/user-attachments/assets/3cebd104-e120-4f4a-828d-5c3ebea351db" />
-
-### Goal Page (bottom)
-<img width="800" alt="goal progress status information" src="https://github.com/user-attachments/assets/a9e60d5f-d577-4642-b7cf-feb1b4d2f323" />
+<img width="800" alt="Goal information" src="https://github.com/user-attachments/assets/3cebd104-e120-4f4a-828d-5c3ebea351db" />
+<img width="800" alt="Goal progress chart" src="https://github.com/user-attachments/assets/a9e60d5f-d577-4642-b7cf-feb1b4d2f323" />
 
 ## License
-This project is licensed under the MIT License.​
+
+MIT.
